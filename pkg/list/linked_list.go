@@ -23,7 +23,7 @@ type LinkedList struct {
 	size int
 }
 
-func (l *LinkedList) Add(value interface{}) *LinkedList {
+func (l *LinkedList) Add(value interface{}) {
 	cell := &cell{value: value}
 
 	if l.IsEmpty() {
@@ -35,12 +35,11 @@ func (l *LinkedList) Add(value interface{}) *LinkedList {
 	}
 
 	l.size++
-	return l
 }
 
-func (l *LinkedList) Insert(index int, value interface{}) (*LinkedList, error) {
+func (l *LinkedList) Insert(index int, value interface{}) error {
 	if index < 0 || index > l.size {
-		return nil, errors.New("Index Out of Bounds Error")
+		return errors.New("Index Out of Bounds Error")
 	}
 
 	if l.IsEmpty() {
@@ -51,18 +50,18 @@ func (l *LinkedList) Insert(index int, value interface{}) (*LinkedList, error) {
 		l.head = &cell{next: l.head, value: value}
 	} else {
 		it := l.head
-		for i := 0; i < index - 1; i++ {
+		for i := 0; i < index-1; i++ {
 			it = it.next
 		}
 		it.next = &cell{next: it.next, value: value}
 	}
 
 	l.size++
-	return l, nil
+	return nil
 }
 
-func (l *LinkedList) Clear() *LinkedList {
-	return &LinkedList{}
+func (l *LinkedList) Clear() {
+	*l = LinkedList{}
 }
 
 func (l *LinkedList) Contains(value interface{}) bool {
@@ -125,8 +124,11 @@ func (l *LinkedList) Remove(value interface{}) bool {
 		if it.next.value == value {
 			temp := it.next
 			it.next = temp.next
-			temp.next = nil
 			l.size--
+			if l.tail == temp {
+				l.tail = it
+			}
+			temp.next = nil
 			return true
 		}
 		it = it.next
