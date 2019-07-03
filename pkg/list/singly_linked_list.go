@@ -12,135 +12,134 @@ import (
 	"fmt"
 )
 
-type cell struct {
-	next  *cell
+type elt struct {
+	next  *elt
 	value interface{}
 }
 
 type SinglyLinkedList struct {
-	head *cell
-	tail *cell
+	head *elt
+	tail *elt
 	size int
 }
 
-func (l *SinglyLinkedList) Add(value interface{}) {
-	cell := &cell{value: value}
+func (list *SinglyLinkedList) Add(value interface{}) {
+	newElt := &elt{value: value}
 
-	if l.IsEmpty() {
-		l.head = cell
-		l.tail = l.head
+	if list.size == 0 {
+		list.head = newElt
 	} else {
-		l.tail.next = cell
-		l.tail = l.tail.next
+		list.tail.next = newElt
 	}
 
-	l.size++
+	list.tail = newElt
+	list.size++
 }
 
-func (l *SinglyLinkedList) Clear() {
-	*l = SinglyLinkedList{}
+func (list *SinglyLinkedList) Clear() {
+	list.head, list.tail, list.size = nil, nil, 0
 }
 
-func (l *SinglyLinkedList) Contains(value interface{}) bool {
-	for it := l.head; it != nil; {
-		if it.value == value {
-			return true
-		}
+func (list *SinglyLinkedList) Contains(value interface{}) bool {
+	found := false
+	for it := list.head; it != nil && !found; {
+		found = it.value == value
 		it = it.next
 	}
-	return false
+	return found
 }
 
-func (l *SinglyLinkedList) Get(index int) (interface{}, error) {
-	if index < 0 || index >= l.size {
+func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
+	if index < 0 || index >= list.size {
 		return nil, errors.New("Index Out of Bounds Error")
 	}
 
-	it := l.head
+	it := list.head
 	for i := 0; i < index; i++ {
 		it = it.next
 	}
-
 	return it.value, nil
 }
 
-func (l *SinglyLinkedList) Insert(index int, value interface{}) error {
-	if index < 0 || index > l.size {
+func (list *SinglyLinkedList) Insert(index int, value interface{}) error {
+	if index < 0 || index > list.size {
 		return errors.New("Index Out of Bounds Error")
 	}
 
-	if l.IsEmpty() {
-		l.head = &cell{value: value}
-		l.tail = l.head
+	newElt := &elt{value: value}
+
+	if list.size == 0 {
+		list.head = newElt
+		list.tail = newElt
 
 	} else if index == 0 {
-		l.head = &cell{next: l.head, value: value}
+		newElt.next = list.head
+		list.head = newElt
+
+	} else if index == list.size {
+		list.tail.next = newElt
+		list.tail = newElt
+
 	} else {
-		it := l.head
-		for i := 0; i < index-1; i++ {
+		it := list.head
+		for i := 1; i < index; i++ {
 			it = it.next
 		}
-		it.next = &cell{next: it.next, value: value}
+
+		newElt.next = it.next
+		it.next = newElt
 	}
 
-	l.size++
+	list.size++
 	return nil
 }
 
-func (l *SinglyLinkedList) IsEmpty() bool {
-	return l.size == 0
+func (list *SinglyLinkedList) IsEmpty() bool {
+	return list.size == 0
 }
 
-func (l *SinglyLinkedList) Join(separator string) string {
-	if l.IsEmpty() {
-		return ""
+func (list *SinglyLinkedList) Join(separator string) string {
+	str := ""
+	if list.size == 0 {
+		return str
 	}
-
-	var str string
-	for it := l.head; it != nil; {
+	for it := list.head; it != nil; {
 		str += fmt.Sprintf("%v%s", it.value, separator)
 		it = it.next
 	}
-
 	return str[:len(str)-1]
 }
 
-func (l *SinglyLinkedList) Remove(value interface{}) bool {
-	if l.IsEmpty() {
-		return false
-	}
-
-	if l.head.value == value {
-		temp := l.head
-		l.head = temp.next
-		if l.tail == temp {
-			l.tail = l.head
-		}
-		l.size--
-		return true
-	}
-
-	for it := l.head; it.next != nil; {
-		if it.next.value == value {
-			temp := it.next
-			it.next = temp.next
-			l.size--
-			if l.tail == temp {
-				l.tail = it
+func (list *SinglyLinkedList) Remove(value interface{}) bool {
+	if list.size != 0 {
+		if list.head.value == value {
+			list.head = list.head.next
+			if list.size == 1 {
+				list.tail = list.head
 			}
-			temp.next = nil
+			list.size--
 			return true
 		}
-		it = it.next
+
+		for it := list.head; it.next != nil; it = it.next {
+			if it.next.value == value {
+				if list.tail == it.next {
+					list.tail = it
+				}
+				it.next = it.next.next
+				list.size--
+				return true
+			}
+		}
 	}
 
 	return false
 }
 
-func (l SinglyLinkedList) Size() int {
-	return l.size
+func (list SinglyLinkedList) Size() int {
+	return list.size
 }
 
-func (l *SinglyLinkedList) String() string {
-	return fmt.Sprintf("&{ head: %v, tail: %v, size: %v }", l.head, l.tail, l.size)
+func (list *SinglyLinkedList) String() string {
+	return fmt.Sprintf("&{head: %v, tail: %v, size: %v}", list.head, list.tail, list.size)
 }

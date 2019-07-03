@@ -35,44 +35,6 @@ func TestAdd(t *testing.T) {
 	assert.Nil(t, list.tail.next)
 }
 
-func TestInsert(t *testing.T) {
-	// index < 0
-	assert.Error(t, (&SinglyLinkedList{}).Insert(-1, 1))
-
-	// index > size
-	assert.Error(t, (&SinglyLinkedList{}).Insert(1, 1))
-
-	// []
-	list := SinglyLinkedList{}
-	list.Insert(0, 1)
-
-	assert.Equal(t, 1, list.size)
-	assert.Equal(t, 1, list.head.value)
-	assert.Equal(t, list.head, list.tail)
-	assert.Nil(t, list.head.next)
-
-	// [1]
-	list = SinglyLinkedList{}
-	list.Add(1)
-	list.Insert(0, 2)
-
-	assert.Equal(t, 2, list.size)
-	assert.Equal(t, 2, list.head.value)
-	assert.Equal(t, 1, list.tail.value)
-	assert.Nil(t, list.tail.next)
-
-	// [1,2]
-	list = SinglyLinkedList{}
-	list.Add(1)
-	list.Add(2)
-	list.Insert(1, 3)
-
-	assert.Equal(t, 3, list.size)
-	assert.Equal(t, 1, list.head.value)
-	assert.Equal(t, 2, list.tail.value)
-	assert.Nil(t, list.tail.next)
-}
-
 func TestClear(t *testing.T) {
 	// []
 	list := SinglyLinkedList{}
@@ -133,6 +95,44 @@ func TestGet(t *testing.T) {
 	assert.Equal(t, 1, res)
 	assert.Nil(t, err)
 
+}
+
+func TestInsert(t *testing.T) {
+	// index < 0
+	assert.Error(t, (&SinglyLinkedList{}).Insert(-1, 1))
+
+	// index > size
+	assert.Error(t, (&SinglyLinkedList{}).Insert(1, 1))
+
+	// []
+	list := SinglyLinkedList{}
+	list.Insert(0, 1)
+
+	assert.Equal(t, 1, list.size)
+	assert.Equal(t, 1, list.head.value)
+	assert.Equal(t, list.head, list.tail)
+	assert.Nil(t, list.head.next)
+
+	// [1]
+	list = SinglyLinkedList{}
+	list.Add(1)
+	list.Insert(0, 2)
+
+	assert.Equal(t, 2, list.size)
+	assert.Equal(t, 2, list.head.value)
+	assert.Equal(t, 1, list.tail.value)
+	assert.Nil(t, list.tail.next)
+
+	// [1,2]
+	list = SinglyLinkedList{}
+	list.Add(1)
+	list.Add(2)
+	list.Insert(1, 3)
+
+	assert.Equal(t, 3, list.size)
+	assert.Equal(t, 1, list.head.value)
+	assert.Equal(t, 2, list.tail.value)
+	assert.Nil(t, list.tail.next)
 }
 
 func TestIsEmpty(t *testing.T) {
