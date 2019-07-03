@@ -15,7 +15,7 @@ import (
 
 func TestAdd(t *testing.T) {
 	// []
-	list := LinkedList{}
+	list := SinglyLinkedList{}
 	list.Add(1)
 
 	assert.Equal(t, 1, list.size)
@@ -24,7 +24,7 @@ func TestAdd(t *testing.T) {
 	assert.Nil(t, list.tail.next)
 
 	// [1]
-	list = LinkedList{}
+	list = SinglyLinkedList{}
 	list.Add(1)
 	list.Add(2)
 
@@ -37,13 +37,13 @@ func TestAdd(t *testing.T) {
 
 func TestInsert(t *testing.T) {
 	// index < 0
-	assert.Error(t, (&LinkedList{}).Insert(-1, 1))
+	assert.Error(t, (&SinglyLinkedList{}).Insert(-1, 1))
 
 	// index > size
-	assert.Error(t, (&LinkedList{}).Insert(1, 1))
+	assert.Error(t, (&SinglyLinkedList{}).Insert(1, 1))
 
 	// []
-	list := LinkedList{}
+	list := SinglyLinkedList{}
 	list.Insert(0, 1)
 
 	assert.Equal(t, 1, list.size)
@@ -52,7 +52,7 @@ func TestInsert(t *testing.T) {
 	assert.Nil(t, list.head.next)
 
 	// [1]
-	list = LinkedList{}
+	list = SinglyLinkedList{}
 	list.Add(1)
 	list.Insert(0, 2)
 
@@ -62,7 +62,7 @@ func TestInsert(t *testing.T) {
 	assert.Nil(t, list.tail.next)
 
 	// [1,2]
-	list = LinkedList{}
+	list = SinglyLinkedList{}
 	list.Add(1)
 	list.Add(2)
 	list.Insert(1, 3)
@@ -75,7 +75,7 @@ func TestInsert(t *testing.T) {
 
 func TestClear(t *testing.T) {
 	// []
-	list := LinkedList{}
+	list := SinglyLinkedList{}
 	list.Clear()
 
 	assert.Equal(t, 0, list.size)
@@ -83,7 +83,7 @@ func TestClear(t *testing.T) {
 	assert.Nil(t, list.tail)
 
 	// [1]
-	list = LinkedList{}
+	list = SinglyLinkedList{}
 	list.Add(1)
 	list.Clear()
 
@@ -92,7 +92,7 @@ func TestClear(t *testing.T) {
 	assert.Nil(t, list.tail)
 
 	// [1, 2]
-	list = LinkedList{}
+	list = SinglyLinkedList{}
 	list.Add(1)
 	list.Add(2)
 	list.Clear()
@@ -104,10 +104,10 @@ func TestClear(t *testing.T) {
 
 func TestContains(t *testing.T) {
 	// []
-	assert.False(t, (&LinkedList{}).Contains("foo"))
+	assert.False(t, (&SinglyLinkedList{}).Contains("foo"))
 
 	// ["foo"]
-	list := LinkedList{}
+	list := SinglyLinkedList{}
 	list.Add("foo")
 
 	assert.True(t, list.Contains("foo"))
@@ -116,17 +116,17 @@ func TestContains(t *testing.T) {
 
 func TestGet(t *testing.T) {
 	// index < 0
-	_, err := (&LinkedList{}).Get(-1)
+	_, err := (&SinglyLinkedList{}).Get(-1)
 
 	assert.EqualError(t, err, "Index Out of Bounds Error")
 
 	// index >= size
-	_, err = (&LinkedList{size: 0}).Get(0)
+	_, err = (&SinglyLinkedList{size: 0}).Get(0)
 
 	assert.EqualError(t, err, "Index Out of Bounds Error")
 
 	// [1]
-	list := LinkedList{}
+	list := SinglyLinkedList{}
 	list.Add(1)
 	res, err := list.Get(0)
 
@@ -136,24 +136,24 @@ func TestGet(t *testing.T) {
 }
 
 func TestIsEmpty(t *testing.T) {
-	assert.True(t, (&LinkedList{}).IsEmpty())
-	assert.False(t, (&LinkedList{size: 1}).IsEmpty())
+	assert.True(t, (&SinglyLinkedList{}).IsEmpty())
+	assert.False(t, (&SinglyLinkedList{size: 1}).IsEmpty())
 }
 
 func TestJoin(t *testing.T) {
 	// []
-	list := LinkedList{}
+	list := SinglyLinkedList{}
 
 	assert.Equal(t, "", list.Join(","))
 
 	// [foo]
-	list = LinkedList{}
+	list = SinglyLinkedList{}
 	list.Add("foo")
 
 	assert.Equal(t, "foo", list.Join(","))
 
 	// ["foo,bar"]
-	list = LinkedList{}
+	list = SinglyLinkedList{}
 	list.Add("foo")
 	list.Add("bar")
 
@@ -162,11 +162,11 @@ func TestJoin(t *testing.T) {
 
 func TestRemove(t *testing.T) {
 	// []
-	list := LinkedList{}
+	list := SinglyLinkedList{}
 	assert.False(t, list.Remove(""))
 
 	// [1]
-	list = LinkedList{}
+	list = SinglyLinkedList{}
 	list.Add(1)
 
 	assert.False(t, list.Remove(2))
@@ -178,7 +178,7 @@ func TestRemove(t *testing.T) {
 	assert.Nil(t, list.tail)
 
 	// [1,2]
-	list = LinkedList{}
+	list = SinglyLinkedList{}
 	list.Add(1)
 	list.Add(2)
 
@@ -188,7 +188,7 @@ func TestRemove(t *testing.T) {
 	assert.Equal(t, list.tail, list.head)
 
 	// [1,2]
-	list = LinkedList{}
+	list = SinglyLinkedList{}
 	list.Add(1)
 	list.Add(2)
 
@@ -198,7 +198,7 @@ func TestRemove(t *testing.T) {
 	assert.Equal(t, list.tail, list.head)
 
 	// [1,2,3]
-	list = LinkedList{}
+	list = SinglyLinkedList{}
 	list.Add(1)
 	list.Add(2)
 	list.Add(3)
@@ -211,6 +211,6 @@ func TestRemove(t *testing.T) {
 }
 
 func TestSize(t *testing.T) {
-	assert.Equal(t, 0, LinkedList{}.size)
-	assert.Equal(t, 2, LinkedList{size: 2}.size)
+	assert.Equal(t, 0, SinglyLinkedList{}.size)
+	assert.Equal(t, 2, SinglyLinkedList{size: 2}.size)
 }

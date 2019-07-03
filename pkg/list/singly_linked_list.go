@@ -17,13 +17,13 @@ type cell struct {
 	value interface{}
 }
 
-type LinkedList struct {
+type SinglyLinkedList struct {
 	head *cell
 	tail *cell
 	size int
 }
 
-func (l *LinkedList) Add(value interface{}) {
+func (l *SinglyLinkedList) Add(value interface{}) {
 	cell := &cell{value: value}
 
 	if l.IsEmpty() {
@@ -37,7 +37,7 @@ func (l *LinkedList) Add(value interface{}) {
 	l.size++
 }
 
-func (l *LinkedList) Insert(index int, value interface{}) error {
+func (l *SinglyLinkedList) Insert(index int, value interface{}) error {
 	if index < 0 || index > l.size {
 		return errors.New("Index Out of Bounds Error")
 	}
@@ -60,11 +60,11 @@ func (l *LinkedList) Insert(index int, value interface{}) error {
 	return nil
 }
 
-func (l *LinkedList) Clear() {
-	*l = LinkedList{}
+func (l *SinglyLinkedList) Clear() {
+	*l = SinglyLinkedList{}
 }
 
-func (l *LinkedList) Contains(value interface{}) bool {
+func (l *SinglyLinkedList) Contains(value interface{}) bool {
 	for it := l.head; it != nil; {
 		if it.value == value {
 			return true
@@ -74,7 +74,7 @@ func (l *LinkedList) Contains(value interface{}) bool {
 	return false
 }
 
-func (l *LinkedList) Get(index int) (interface{}, error) {
+func (l *SinglyLinkedList) Get(index int) (interface{}, error) {
 	if index < 0 || index >= l.size {
 		return nil, errors.New("Index Out of Bounds Error")
 	}
@@ -87,11 +87,11 @@ func (l *LinkedList) Get(index int) (interface{}, error) {
 	return it.value, nil
 }
 
-func (l *LinkedList) IsEmpty() bool {
+func (l *SinglyLinkedList) IsEmpty() bool {
 	return l.size == 0
 }
 
-func (l *LinkedList) Join(delim string) string {
+func (l *SinglyLinkedList) Join(delim string) string {
 	if l.IsEmpty() {
 		return ""
 	}
@@ -105,7 +105,7 @@ func (l *LinkedList) Join(delim string) string {
 	return str[:len(str)-1]
 }
 
-func (l *LinkedList) Remove(value interface{}) bool {
+func (l *SinglyLinkedList) Remove(value interface{}) bool {
 	if l.IsEmpty() {
 		return false
 	}
@@ -137,10 +137,10 @@ func (l *LinkedList) Remove(value interface{}) bool {
 	return false
 }
 
-func (l LinkedList) Size() int {
+func (l SinglyLinkedList) Size() int {
 	return l.size
 }
 
-func (l *LinkedList) String() string {
+func (l *SinglyLinkedList) String() string {
 	return fmt.Sprintf("&{ head: %v, tail: %v, size: %v }", l.head, l.tail, l.size)
 }
