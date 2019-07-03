@@ -37,29 +37,6 @@ func (l *SinglyLinkedList) Add(value interface{}) {
 	l.size++
 }
 
-func (l *SinglyLinkedList) Insert(index int, value interface{}) error {
-	if index < 0 || index > l.size {
-		return errors.New("Index Out of Bounds Error")
-	}
-
-	if l.IsEmpty() {
-		l.head = &cell{value: value}
-		l.tail = l.head
-
-	} else if index == 0 {
-		l.head = &cell{next: l.head, value: value}
-	} else {
-		it := l.head
-		for i := 0; i < index-1; i++ {
-			it = it.next
-		}
-		it.next = &cell{next: it.next, value: value}
-	}
-
-	l.size++
-	return nil
-}
-
 func (l *SinglyLinkedList) Clear() {
 	*l = SinglyLinkedList{}
 }
@@ -85,6 +62,29 @@ func (l *SinglyLinkedList) Get(index int) (interface{}, error) {
 	}
 
 	return it.value, nil
+}
+
+func (l *SinglyLinkedList) Insert(index int, value interface{}) error {
+	if index < 0 || index > l.size {
+		return errors.New("Index Out of Bounds Error")
+	}
+
+	if l.IsEmpty() {
+		l.head = &cell{value: value}
+		l.tail = l.head
+
+	} else if index == 0 {
+		l.head = &cell{next: l.head, value: value}
+	} else {
+		it := l.head
+		for i := 0; i < index-1; i++ {
+			it = it.next
+		}
+		it.next = &cell{next: it.next, value: value}
+	}
+
+	l.size++
+	return nil
 }
 
 func (l *SinglyLinkedList) IsEmpty() bool {
