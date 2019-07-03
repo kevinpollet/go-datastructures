@@ -17,12 +17,14 @@ type elt struct {
 	value interface{}
 }
 
+// SinglyLinkedList is an implementation of the List ADT
 type SinglyLinkedList struct {
 	head *elt
 	tail *elt
 	size int
 }
 
+// Add appends the given value to the list
 func (list *SinglyLinkedList) Add(value interface{}) {
 	newElt := &elt{value: value}
 
@@ -36,10 +38,12 @@ func (list *SinglyLinkedList) Add(value interface{}) {
 	list.size++
 }
 
+// Clear removes all values in the list
 func (list *SinglyLinkedList) Clear() {
 	list.head, list.tail, list.size = nil, nil, 0
 }
 
+// Contains returns true if the list contains the given value, false otherwise
 func (list *SinglyLinkedList) Contains(value interface{}) bool {
 	found := false
 	for it := list.head; it != nil && !found; {
@@ -49,6 +53,7 @@ func (list *SinglyLinkedList) Contains(value interface{}) bool {
 	return found
 }
 
+// Get returns the value at the given index in the list
 func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
 	if index < 0 || index >= list.size {
 		return nil, errors.New("Index Out of Bounds Error")
@@ -61,6 +66,7 @@ func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
 	return it.value, nil
 }
 
+// Insert adds the given value at the given index in the list
 func (list *SinglyLinkedList) Insert(index int, value interface{}) error {
 	if index < 0 || index > list.size {
 		return errors.New("Index Out of Bounds Error")
@@ -94,10 +100,12 @@ func (list *SinglyLinkedList) Insert(index int, value interface{}) error {
 	return nil
 }
 
+// IsEmpty returns true if the list is empty, false otherwise
 func (list *SinglyLinkedList) IsEmpty() bool {
 	return list.size == 0
 }
 
+// Join returns a string with all the concatenated and separated by the given separator
 func (list *SinglyLinkedList) Join(separator string) string {
 	str := ""
 	if list.size == 0 {
@@ -110,6 +118,7 @@ func (list *SinglyLinkedList) Join(separator string) string {
 	return str[:len(str)-1]
 }
 
+// Remove removes the given value from the list and returns true if the value has been removed, false otherwise
 func (list *SinglyLinkedList) Remove(value interface{}) bool {
 	if list.size != 0 {
 		if list.head.value == value {
@@ -136,6 +145,7 @@ func (list *SinglyLinkedList) Remove(value interface{}) bool {
 	return false
 }
 
+// Size returns the number of values in the list
 func (list SinglyLinkedList) Size() int {
 	return list.size
 }
