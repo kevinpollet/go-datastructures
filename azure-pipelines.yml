@@ -38,3 +38,10 @@ steps:
       arguments: -v
       workingDirectory: $(modulePath)
     displayName: Go build
+
+  - task: Go@0
+    inputs:
+      command: test
+      arguments: -v ./...
+      workingDirectory: $(modulePath)
+    displayName: Go test
