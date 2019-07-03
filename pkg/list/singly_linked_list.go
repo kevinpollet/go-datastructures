@@ -91,14 +91,14 @@ func (l *SinglyLinkedList) IsEmpty() bool {
 	return l.size == 0
 }
 
-func (l *SinglyLinkedList) Join(delim string) string {
+func (l *SinglyLinkedList) Join(separator string) string {
 	if l.IsEmpty() {
 		return ""
 	}
 
 	var str string
 	for it := l.head; it != nil; {
-		str += fmt.Sprintf("%v%s", it.value, delim)
+		str += fmt.Sprintf("%v%s", it.value, separator)
 		it = it.next
 	}
 

@@ -14,7 +14,7 @@ type List interface {
 	Get(index int) (interface{}, error)
 	Insert(index int, value interface{})
 	IsEmpty() bool
-	Join(delim string)
+	Join(separator string)
 	Remove(value interface{}) bool
 	Size() int
 }
