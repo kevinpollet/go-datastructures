@@ -5,7 +5,7 @@
  * found in the LICENSE.md file.
  */
 
-package signlylinkedlist
+package singlylinkedlist
 
 import (
 	"fmt"
@@ -27,15 +27,15 @@ type SinglyLinkedList struct {
 
 // Add appends the given value to the list
 func (list *SinglyLinkedList) Add(value interface{}) {
-	newElt := &elt{value: value}
+	newElement := &elt{value: value}
 
-	if list.size == 0 {
-		list.head = newElt
+	if list.IsEmpty() {
+		list.head = newElement
 	} else {
-		list.tail.next = newElt
+		list.tail.next = newElement
 	}
 
-	list.tail = newElt
+	list.tail = newElement
 	list.size++
 }
 
@@ -47,21 +47,20 @@ func (list *SinglyLinkedList) Clear() {
 // Contains returns true if the list contains the given value, false otherwise
 func (list *SinglyLinkedList) Contains(value interface{}) bool {
 	found := false
-	for it := list.head; it != nil && !found; {
+	for it := list.head; it != nil && !found; it = it.next {
 		found = it.value == value
-		it = it.next
 	}
 	return found
 }
 
 // Get returns the value at the given index in the list
 func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
-	if index < 0 || index >= list.size {
-		return nil, &errors.IndexOutOfBoundsError{Index: index, Size: list.size}
+	if index < 0 || index >= list.Size() {
+		return nil, &errors.IndexOutOfBoundsError{Index: index, Size: list.Size()}
 	}
 
 	it := list.head
-	for i := 0; i < index; i++ {
+	for i := 1; i <= index; i++ {
 		it = it.next
 	}
 	return it.value, nil
@@ -69,23 +68,14 @@ func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
 
 // Insert adds the given value at the given index in the list
 func (list *SinglyLinkedList) Insert(index int, value interface{}) error {
-	if index < 0 || index > list.size {
-		return &errors.IndexOutOfBoundsError{Index: index, Size: list.size}
+	if index < 0 || index > list.Size() {
+		return &errors.IndexOutOfBoundsError{Index: index, Size: list.Size()}
 	}
 
-	newElt := &elt{value: value}
+	newElement := &elt{value: value}
 
-	if list.size == 0 {
-		list.head = newElt
-		list.tail = newElt
-
-	} else if index == 0 {
-		newElt.next = list.head
-		list.head = newElt
-
-	} else if index == list.size {
-		list.tail.next = newElt
-		list.tail = newElt
+	if list.IsEmpty() || index == list.Size() {
+		list.Add(value)
 
 	} else {
 		it := list.head
@@ -93,11 +83,16 @@ func (list *SinglyLinkedList) Insert(index int, value interface{}) error {
 			it = it.next
 		}
 
-		newElt.next = it.next
-		it.next = newElt
-	}
+		if index == 0 && it == list.head {
+			newElement.next = list.head
+			list.head = newElement
+		} else {
+			newElement.next = it.next
+			it.next = newElement
+		}
 
-	list.size++
+		list.size++
+	}
 	return nil
 }
 
@@ -109,41 +104,44 @@ func (list *SinglyLinkedList) IsEmpty() bool {
 // Join returns a string with all the concatenated and separated by the given separator
 func (list *SinglyLinkedList) Join(separator string) string {
 	str := ""
-	if list.size == 0 {
-		return str
+	for it := list.head; it != nil; it = it.next {
+		str += fmt.Sprintf("%v", it.value)
+		if it.next != nil {
+			str += separator
+		}
 	}
-	for it := list.head; it != nil; {
-		str += fmt.Sprintf("%v%s", it.value, separator)
-		it = it.next
-	}
-	return str[:len(str)-1]
+	return str
 }
 
 // Remove removes the given value from the list and returns true if the value has been removed, false otherwise
 func (list *SinglyLinkedList) Remove(value interface{}) bool {
-	if list.size != 0 {
-		if list.head.value == value {
-			list.head = list.head.next
-			if list.size == 1 {
-				list.tail = list.head
-			}
-			list.size--
-			return true
-		}
+	found := false
 
-		for it := list.head; it.next != nil; it = it.next {
-			if it.next.value == value {
-				if list.tail == it.next {
-					list.tail = it
+	if !list.IsEmpty() {
+		if list.head.value == value {
+			found = true
+			if list.tail == list.head {
+				list.tail = list.head.next
+			}
+			list.head = list.tail
+			list.size--
+		} else {
+			for it := list.head; it.next != nil; it = it.next {
+				if it.next.value == value {
+					found = true
+					if it.next == list.tail {
+						list.tail = it
+					}
+					it.next = it.next.next
+					list.size--
+					break
 				}
-				it.next = it.next.next
-				list.size--
-				return true
+
 			}
 		}
 	}
 
-	return false
+	return found
 }
 
 // Size returns the number of values in the list
@@ -152,5 +150,5 @@ func (list SinglyLinkedList) Size() int {
 }
 
 func (list SinglyLinkedList) String() string {
-	return fmt.Sprintf("&{head: %v, tail: %v, size: %v}", list.head, list.tail, list.size)
+	return fmt.Sprintf("[%s]", list.Join(","))
 }

@@ -44,14 +44,12 @@ func (list *DoublyLinkedList) Clear() {
 }
 
 // Contains returns true if the list contains the given value
-func (list *DoublyLinkedList) Contains(value interface{}) interface{} {
-	var result interface{}
-	for it := list.head; it != nil && result == nil; it = it.next {
-		if it.value == value {
-			result = it.value
-		}
+func (list *DoublyLinkedList) Contains(value interface{}) bool {
+	found := false
+	for it := list.head; it != nil && !found; it = it.next {
+		found = it.value == value
 	}
-	return result
+	return found
 }
 
 // IsEmpty return true if the list is empty, false otherwise
