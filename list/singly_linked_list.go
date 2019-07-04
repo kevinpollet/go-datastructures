@@ -10,7 +10,7 @@ package list
 import (
 	"fmt"
 
-	"github.com/kevinpollet/go-datastructures/pkg/errors"
+	"github.com/kevinpollet/go-datastructures/errors"
 )
 
 type elt struct {
