@@ -18,5 +18,5 @@ type IndexOutOfBoundsError struct {
 }
 
 func (err *IndexOutOfBoundsError) Error() string {
-	return fmt.Sprintf("Index out of bounds error, index %d is not in [0,%d[", err.Index, err.Size)
+	return fmt.Sprintf("Index out of bounds, index %d is not in range [0,%d[", err.Index, err.Size)
 }

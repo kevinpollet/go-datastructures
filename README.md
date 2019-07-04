@@ -2,9 +2,9 @@
 
 ## Data Structures
 
-| Abstract Data Structure | Implementations  |
-| ----------------------- | ---------------- |
-| List                    | SinglyLinkedList |
+| Abstract Data Structure | Implementations                    |
+| ----------------------- | ---------------------------------- |
+| List                    | SinglyLinkedList, DoublyLinkedList |
 
 ## License
 

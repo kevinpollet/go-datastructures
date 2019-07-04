@@ -5,7 +5,7 @@
  * found in the LICENSE.md file.
  */
 
-package list
+package signlylinkedlist
 
 import (
 	"fmt"
@@ -18,7 +18,7 @@ type elt struct {
 	value interface{}
 }
 
-// SinglyLinkedList is an implementation of the List ADT
+// SinglyLinkedList implementation of list Abstract Data Structure
 type SinglyLinkedList struct {
 	head *elt
 	tail *elt
@@ -151,6 +151,6 @@ func (list SinglyLinkedList) Size() int {
 	return list.size
 }
 
-func (list *SinglyLinkedList) String() string {
+func (list SinglyLinkedList) String() string {
 	return fmt.Sprintf("&{head: %v, tail: %v, size: %v}", list.head, list.tail, list.size)
 }

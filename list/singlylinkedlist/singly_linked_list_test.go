@@ -5,7 +5,7 @@
  * found in the LICENSE.md file.
  */
 
-package list
+package signlylinkedlist
 
 import (
 	"testing"
