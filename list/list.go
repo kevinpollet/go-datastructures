@@ -13,9 +13,9 @@ type List interface {
 	Clear()
 	Contains(value interface{}) bool
 	Get(index int) (interface{}, error)
-	Insert(index int, value interface{})
+	Insert(index int, value interface{}) error
 	IsEmpty() bool
-	Join(separator string)
+	Join(separator string) string
 	Remove(value interface{}) bool
 	Size() int
 }
