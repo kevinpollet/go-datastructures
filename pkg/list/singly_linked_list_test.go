@@ -80,12 +80,12 @@ func TestGet(t *testing.T) {
 	// index < 0
 	_, err := (&SinglyLinkedList{}).Get(-1)
 
-	assert.EqualError(t, err, "Index Out of Bounds Error")
+	assert.Error(t, err)
 
 	// index >= size
 	_, err = (&SinglyLinkedList{size: 0}).Get(0)
 
-	assert.EqualError(t, err, "Index Out of Bounds Error")
+	assert.Error(t, err, "Index Out of Bounds Error")
 
 	// [1]
 	list := SinglyLinkedList{}

@@ -8,8 +8,9 @@
 package list
 
 import (
-	"errors"
 	"fmt"
+
+	"github.com/kevinpollet/go-datastructures/pkg/errors"
 )
 
 type elt struct {
@@ -56,7 +57,7 @@ func (list *SinglyLinkedList) Contains(value interface{}) bool {
 // Get returns the value at the given index in the list
 func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
 	if index < 0 || index >= list.size {
-		return nil, errors.New("Index Out of Bounds Error")
+		return nil, &errors.IndexOutOfBoundsError{Index: index, Size: list.size}
 	}
 
 	it := list.head
@@ -69,7 +70,7 @@ func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
 // Insert adds the given value at the given index in the list
 func (list *SinglyLinkedList) Insert(index int, value interface{}) error {
 	if index < 0 || index > list.size {
-		return errors.New("Index Out of Bounds Error")
+		return &errors.IndexOutOfBoundsError{Index: index, Size: list.size}
 	}
 
 	newElt := &elt{value: value}
