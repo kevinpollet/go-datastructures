@@ -27,15 +27,13 @@ type SinglyLinkedList struct {
 
 // Add appends the given value to the list
 func (list *SinglyLinkedList) Add(value interface{}) {
-	newElement := &elt{value: value}
-
 	if list.IsEmpty() {
-		list.head = newElement
+		list.head = &elt{value: value}
+		list.tail = list.head
 	} else {
-		list.tail.next = newElement
+		list.tail.next = &elt{value: value}
+		list.tail = list.tail.next
 	}
-
-	list.tail = newElement
 	list.size++
 }
 
@@ -47,7 +45,7 @@ func (list *SinglyLinkedList) Clear() {
 // Contains returns true if the list contains the given value, false otherwise
 func (list *SinglyLinkedList) Contains(value interface{}) bool {
 	found := false
-	for it := list.head; it != nil && !found; it = it.next {
+	for it := list.head; !found && it != nil; it = it.next {
 		found = it.value == value
 	}
 	return found
@@ -74,7 +72,7 @@ func (list *SinglyLinkedList) Insert(index int, value interface{}) error {
 
 	newElement := &elt{value: value}
 
-	if list.IsEmpty() || index == list.Size() {
+	if index == list.Size() {
 		list.Add(value)
 
 	} else {
@@ -104,12 +102,14 @@ func (list *SinglyLinkedList) IsEmpty() bool {
 // Join returns a string with all the concatenated and separated by the given separator
 func (list *SinglyLinkedList) Join(separator string) string {
 	str := ""
+
 	for it := list.head; it != nil; it = it.next {
 		str += fmt.Sprintf("%v", it.value)
 		if it.next != nil {
 			str += separator
 		}
 	}
+
 	return str
 }
 
@@ -118,25 +118,25 @@ func (list *SinglyLinkedList) Remove(value interface{}) bool {
 	found := false
 
 	if !list.IsEmpty() {
-		if list.head.value == value {
-			found = true
-			if list.tail == list.head {
-				list.tail = list.head.next
+		it := list.head
+		if it.value == value {
+			list.head = list.head.next
+			if list.tail == it {
+				list.tail = list.head
 			}
-			list.head = list.tail
+			found = true
 			list.size--
 		} else {
-			for it := list.head; it.next != nil; it = it.next {
-				if it.next.value == value {
-					found = true
-					if it.next == list.tail {
-						list.tail = it
-					}
-					it.next = it.next.next
-					list.size--
-					break
+			for it.next != nil && it.next.value != value {
+				it = it.next
+			}
+			found = it.next != nil
+			if found {
+				if it.next == list.tail {
+					list.tail = it
 				}
-
+				it.next = it.next.next
+				list.size--
 			}
 		}
 	}

@@ -32,8 +32,9 @@ func (list *DoublyLinkedList) Add(value interface{}) {
 		list.head = &elt{value: value}
 		list.tail = list.head
 	} else {
-		list.tail = &elt{prev: list.tail, value: value}
-		list.tail.prev.next = list.tail
+		newElement := &elt{prev: list.tail, value: value}
+		list.tail.next = newElement
+		list.tail = newElement
 	}
 	list.size++
 }
@@ -46,7 +47,7 @@ func (list *DoublyLinkedList) Clear() {
 // Contains returns true if the list contains the given value
 func (list *DoublyLinkedList) Contains(value interface{}) bool {
 	found := false
-	for it := list.head; it != nil && !found; it = it.next {
+	for it := list.head; !found && it != nil; it = it.next {
 		found = it.value == value
 	}
 	return found
@@ -78,17 +79,13 @@ func (list *DoublyLinkedList) Insert(index int, value interface{}) error {
 		return &errors.IndexOutOfBoundsError{Index: index, Size: list.Size()}
 	}
 
-	if list.IsEmpty() || index == list.Size() {
+	if index == list.Size() {
 		list.Add(value)
 
 	} else if index == 0 {
-		list.head = &elt{next: list.head, value: value}
-		list.head.next.prev = list.head
-		list.size++
-
-	} else if index == list.Size()-1 {
-		list.tail = &elt{prev: list.tail, value: value}
-		list.tail.next.prev = list.tail
+		newElement := &elt{next: list.head, value: value}
+		list.head.prev = newElement
+		list.head = newElement
 		list.size++
 
 	} else {
@@ -96,9 +93,12 @@ func (list *DoublyLinkedList) Insert(index int, value interface{}) error {
 		for i := 1; i < index; i++ {
 			it = it.next
 		}
+
 		newElement := &elt{next: it, prev: it.prev, value: value}
-		it.prev.next = newElement
-		it.prev = newElement
+		newElement.prev.next = newElement
+		if it != list.tail {
+			newElement.next.prev = newElement
+		}
 		list.size++
 	}
 	return nil
@@ -121,32 +121,28 @@ func (list *DoublyLinkedList) Join(separator string) string {
 // Remove removes the given value and returns true if value exists, false otherwise
 func (list *DoublyLinkedList) Remove(value interface{}) bool {
 	found := false
-
-	for it := list.head; it != nil && !found; it = it.next {
-		if it.value == value {
-			found = true
-
-			if it == list.head {
-				it.next.prev = nil
-				list.head = it.next
-				if it == list.tail {
-					list.tail = list.head
-				}
-
-			} else if it == list.tail {
-				it.prev.next = nil
-				list.tail = it.prev
-
-			} else {
-				it.prev.next = it.next
-				it.next.prev = it.prev
-			}
-
-			list.size--
-			break
+	if !list.IsEmpty() {
+		it := list.head
+		for it != nil && it.value != value {
+			it = it.next
 		}
-	}
 
+		found = it != nil
+		if found {
+			if it != list.head {
+				it.prev.next = it.next
+			} else {
+				list.head = it.next
+			}
+			if it != list.tail {
+				it.next.prev = it.prev
+			} else {
+				list.tail = it.prev
+			}
+			list.size--
+		}
+
+	}
 	return found
 }
 
