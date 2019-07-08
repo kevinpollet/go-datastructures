@@ -17,5 +17,6 @@ type List interface {
 	IsEmpty() bool
 	Join(separator string) string
 	Remove(value interface{}) bool
+	RemoveAtIndex(index int) error
 	Size() int
 }

@@ -220,6 +220,49 @@ func TestRemove(test *testing.T) {
 	assert.NotEqual(test, list.tail, list.head)
 }
 
+func TestRemoveAt(test *testing.T) {
+	// []
+	list := DoublyLinkedList{}
+	assert.Error(test, list.RemoveAtIndex(0))
+
+	// [1]
+	list = DoublyLinkedList{}
+	list.Add(1)
+
+	assert.Error(test, list.RemoveAtIndex(1))
+
+	// [1]
+	list = DoublyLinkedList{}
+	list.Add(1)
+
+	assert.Nil(test, list.RemoveAtIndex(0))
+	assert.Equal(test, 0, list.size)
+	assert.Nil(test, list.head)
+	assert.Nil(test, list.tail)
+
+	// [1,2]
+	list = DoublyLinkedList{}
+	list.Add(1)
+	list.Add(2)
+
+	assert.Nil(test, list.RemoveAtIndex(1))
+	assert.Equal(test, 1, list.size)
+	assert.Equal(test, 1, list.head.value)
+	assert.Equal(test, list.tail, list.head)
+
+	// [1,2,3]
+	list = DoublyLinkedList{}
+	list.Add(1)
+	list.Add(2)
+	list.Add(3)
+
+	assert.Nil(test, list.RemoveAtIndex(1))
+	assert.Equal(test, 2, list.size)
+	assert.Equal(test, 1, list.head.value)
+	assert.Equal(test, 3, list.tail.value)
+	assert.NotEqual(test, list.tail, list.head)
+}
+
 func TestSize(test *testing.T) {
 	assert.Equal(test, 0, DoublyLinkedList{}.size)
 	assert.Equal(test, 2, DoublyLinkedList{size: 2}.size)

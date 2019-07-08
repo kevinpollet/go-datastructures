@@ -146,6 +146,40 @@ func (list *DoublyLinkedList) Remove(value interface{}) bool {
 	return found
 }
 
+// RemoveAtIndex removes the given value from the list at the given index
+func (list *DoublyLinkedList) RemoveAtIndex(index int) error {
+	if index < 0 || index >= list.Size() {
+		return listPackage.NewIndexOutOfBoundsError(index, list.Size())
+	}
+
+	it := list.head
+	for i := 0; i < index; i++ {
+		it = it.next
+	}
+
+	if it == list.head {
+		list.head = list.head.next
+
+		if list.tail == it {
+			list.tail = list.head
+		} else {
+			list.head.prev = nil
+		}
+
+	} else if it == list.tail {
+		list.tail = list.tail.prev
+		list.tail.next = nil
+
+	} else {
+		it.prev.next = it.next
+		it.next.prev = it.prev
+	}
+
+	list.size--
+
+	return nil
+}
+
 // Size return the number of elements in the list
 func (list *DoublyLinkedList) Size() int {
 	return list.size

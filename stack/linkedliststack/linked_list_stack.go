@@ -44,7 +44,7 @@ func (stack *LinkedListStack) Pop() (interface{}, error) {
 	}
 
 	value, _ := stack.list.Get(0)
-	stack.list.Remove(value)
+	stack.list.RemoveAtIndex(0)
 
 	return value, nil
 }

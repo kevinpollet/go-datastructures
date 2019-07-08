@@ -144,6 +144,35 @@ func (list *SinglyLinkedList) Remove(value interface{}) bool {
 	return found
 }
 
+// RemoveAtIndex removes the given value from the list at the given index
+func (list *SinglyLinkedList) RemoveAtIndex(index int) error {
+	if index < 0 || index >= list.Size() {
+		return listPackage.NewIndexOutOfBoundsError(index, list.Size())
+	}
+
+	it := list.head
+	for i := 1; i < index; i++ {
+		it = it.next
+	}
+
+	if list.tail == it.next {
+		list.tail = it
+
+	} else if list.tail == list.head {
+		list.tail = list.head.next
+	}
+
+	if index == 0 {
+		list.head = list.head.next
+	} else {
+		it.next = it.next.next
+	}
+
+	list.size--
+
+	return nil
+}
+
 // Size returns the number of values in the list
 func (list SinglyLinkedList) Size() int {
 	return list.size
