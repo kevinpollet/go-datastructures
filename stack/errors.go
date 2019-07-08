@@ -11,6 +11,11 @@ package stack
 type EmptyStackError struct {
 }
 
+// NewEmptyStackError constructs and returns an instance of EmptyStackError
+func NewEmptyStackError() *EmptyStackError {
+	return &EmptyStackError{}
+}
+
 func (err *EmptyStackError) Error() string {
-	return "Empty stack error"
+	return "Empty Stack Error"
 }
