@@ -23,45 +23,45 @@ func TestListImplementation(test *testing.T) {
 	assert.NotNil(test, cast)
 }
 
-func TestAdd(t *testing.T) {
+func TestAdd(test *testing.T) {
 	// []
 	list := DoublyLinkedList{}
 	list.Add(1)
 
-	assert.Equal(t, 1, list.size)
-	assert.Equal(t, 1, list.head.value)
-	assert.Equal(t, list.tail, list.head)
-	assert.Nil(t, list.tail.next)
+	assert.Equal(test, 1, list.size)
+	assert.Equal(test, 1, list.head.value)
+	assert.Equal(test, list.tail, list.head)
+	assert.Nil(test, list.tail.next)
 
 	// [1]
 	list = DoublyLinkedList{}
 	list.Add(1)
 	list.Add(2)
 
-	assert.Equal(t, 2, list.size)
-	assert.Equal(t, 1, list.head.value)
-	assert.Equal(t, list.tail, list.head.next)
-	assert.Equal(t, 2, list.tail.value)
-	assert.Nil(t, list.tail.next)
+	assert.Equal(test, 2, list.size)
+	assert.Equal(test, 1, list.head.value)
+	assert.Equal(test, list.tail, list.head.next)
+	assert.Equal(test, 2, list.tail.value)
+	assert.Nil(test, list.tail.next)
 }
 
-func TestClear(t *testing.T) {
+func TestClear(test *testing.T) {
 	// []
 	list := DoublyLinkedList{}
 	list.Clear()
 
-	assert.Equal(t, 0, list.size)
-	assert.Nil(t, list.head)
-	assert.Nil(t, list.tail)
+	assert.Equal(test, 0, list.size)
+	assert.Nil(test, list.head)
+	assert.Nil(test, list.tail)
 
 	// [1]
 	list = DoublyLinkedList{}
 	list.Add(1)
 	list.Clear()
 
-	assert.Equal(t, 0, list.size)
-	assert.Nil(t, list.head)
-	assert.Nil(t, list.tail)
+	assert.Equal(test, 0, list.size)
+	assert.Nil(test, list.head)
+	assert.Nil(test, list.tail)
 
 	// [1, 2]
 	list = DoublyLinkedList{}
@@ -69,69 +69,69 @@ func TestClear(t *testing.T) {
 	list.Add(2)
 	list.Clear()
 
-	assert.Equal(t, 0, list.size)
-	assert.Nil(t, list.head)
-	assert.Nil(t, list.tail)
+	assert.Equal(test, 0, list.size)
+	assert.Nil(test, list.head)
+	assert.Nil(test, list.tail)
 }
 
-func TestContains(t *testing.T) {
+func TestContains(test *testing.T) {
 	// []
-	assert.False(t, (&DoublyLinkedList{}).Contains("foo"))
+	assert.False(test, (&DoublyLinkedList{}).Contains("foo"))
 
 	// ["foo"]
 	list := DoublyLinkedList{}
 	list.Add("foo")
 
-	assert.True(t, list.Contains("foo"))
-	assert.False(t, list.Contains("bar"))
+	assert.True(test, list.Contains("foo"))
+	assert.False(test, list.Contains("bar"))
 }
 
-func TestGet(t *testing.T) {
+func TestGet(test *testing.T) {
 	// index < 0
 	_, err := (&DoublyLinkedList{}).Get(-1)
 
-	assert.Error(t, err)
+	assert.Error(test, err)
 
 	// index >= size
 	_, err = (&DoublyLinkedList{size: 0}).Get(0)
 
-	assert.Error(t, err, "Index Out of Bounds Error")
+	assert.Error(test, err, "Index Out of Bounds Error")
 
 	// [1]
 	list := DoublyLinkedList{}
 	list.Add(1)
 	res, err := list.Get(0)
 
-	assert.Equal(t, 1, res)
-	assert.Nil(t, err)
+	assert.Equal(test, 1, res)
+	assert.Nil(test, err)
 
 }
 
-func TestInsert(t *testing.T) {
+func TestInsert(test *testing.T) {
 	// index < 0
-	assert.Error(t, (&DoublyLinkedList{}).Insert(-1, 1))
+	assert.Error(test, (&DoublyLinkedList{}).Insert(-1, 1))
 
 	// index > size
-	assert.Error(t, (&DoublyLinkedList{}).Insert(1, 1))
+	assert.Error(test, (&DoublyLinkedList{}).Insert(1, 1))
 
 	// []
 	list := DoublyLinkedList{}
 	list.Insert(0, 1)
 
-	assert.Equal(t, 1, list.size)
-	assert.Equal(t, 1, list.head.value)
-	assert.Equal(t, list.head, list.tail)
-	assert.Nil(t, list.head.next)
+	assert.Equal(test, 1, list.size)
+	assert.Equal(test, 1, list.head.value)
+	assert.Equal(test, list.head, list.tail)
+	assert.Nil(test, list.head.next)
 
 	// [1]
 	list = DoublyLinkedList{}
 	list.Add(1)
 	list.Insert(0, 2)
 
-	assert.Equal(t, 2, list.size)
-	assert.Equal(t, 2, list.head.value)
-	assert.Equal(t, 1, list.tail.value)
-	assert.Nil(t, list.tail.next)
+	assert.Equal(test, 2, list.size)
+	assert.Equal(test, 2, list.head.value)
+	assert.Equal(test, 1, list.tail.value)
+	assert.Nil(test, list.tail.next)
 
 	// [1,2]
 	list = DoublyLinkedList{}
@@ -139,73 +139,73 @@ func TestInsert(t *testing.T) {
 	list.Add(2)
 	list.Insert(1, 3)
 
-	assert.Equal(t, 3, list.size)
-	assert.Equal(t, 1, list.head.value)
-	assert.Equal(t, 2, list.tail.value)
-	assert.Nil(t, list.tail.next)
+	assert.Equal(test, 3, list.size)
+	assert.Equal(test, 1, list.head.value)
+	assert.Equal(test, 2, list.tail.value)
+	assert.Nil(test, list.tail.next)
 }
 
-func TestIsEmpty(t *testing.T) {
-	assert.True(t, (&DoublyLinkedList{}).IsEmpty())
-	assert.False(t, (&DoublyLinkedList{size: 1}).IsEmpty())
+func TestIsEmpty(test *testing.T) {
+	assert.True(test, (&DoublyLinkedList{}).IsEmpty())
+	assert.False(test, (&DoublyLinkedList{size: 1}).IsEmpty())
 }
 
-func TestJoin(t *testing.T) {
+func TestJoin(test *testing.T) {
 	// []
 	list := DoublyLinkedList{}
 
-	assert.Equal(t, "", list.Join(","))
+	assert.Equal(test, "", list.Join(","))
 
 	// [foo]
 	list = DoublyLinkedList{}
 	list.Add("foo")
 
-	assert.Equal(t, "foo", list.Join(","))
+	assert.Equal(test, "foo", list.Join(","))
 
 	// ["foo,bar"]
 	list = DoublyLinkedList{}
 	list.Add("foo")
 	list.Add("bar")
 
-	assert.Equal(t, "foo,bar", list.Join(","))
+	assert.Equal(test, "foo,bar", list.Join(","))
 }
 
-func TestRemove(t *testing.T) {
+func TestRemove(test *testing.T) {
 	// []
 	list := DoublyLinkedList{}
-	assert.False(t, list.Remove(""))
+	assert.False(test, list.Remove(""))
 
 	// [1]
 	list = DoublyLinkedList{}
 	list.Add(1)
 
-	assert.False(t, list.Remove(2))
-	assert.Equal(t, 1, list.size)
+	assert.False(test, list.Remove(2))
+	assert.Equal(test, 1, list.size)
 
-	assert.True(t, list.Remove(1))
-	assert.Equal(t, 0, list.size)
-	assert.Nil(t, list.head)
-	assert.Nil(t, list.tail)
-
-	// [1,2]
-	list = DoublyLinkedList{}
-	list.Add(1)
-	list.Add(2)
-
-	assert.True(t, list.Remove(1))
-	assert.Equal(t, 1, list.size)
-	assert.Equal(t, 2, list.head.value)
-	assert.Equal(t, list.tail, list.head)
+	assert.True(test, list.Remove(1))
+	assert.Equal(test, 0, list.size)
+	assert.Nil(test, list.head)
+	assert.Nil(test, list.tail)
 
 	// [1,2]
 	list = DoublyLinkedList{}
 	list.Add(1)
 	list.Add(2)
 
-	assert.True(t, list.Remove(2))
-	assert.Equal(t, 1, list.size)
-	assert.Equal(t, 1, list.head.value)
-	assert.Equal(t, list.tail, list.head)
+	assert.True(test, list.Remove(1))
+	assert.Equal(test, 1, list.size)
+	assert.Equal(test, 2, list.head.value)
+	assert.Equal(test, list.tail, list.head)
+
+	// [1,2]
+	list = DoublyLinkedList{}
+	list.Add(1)
+	list.Add(2)
+
+	assert.True(test, list.Remove(2))
+	assert.Equal(test, 1, list.size)
+	assert.Equal(test, 1, list.head.value)
+	assert.Equal(test, list.tail, list.head)
 
 	// [1,2,3]
 	list = DoublyLinkedList{}
@@ -213,14 +213,14 @@ func TestRemove(t *testing.T) {
 	list.Add(2)
 	list.Add(3)
 
-	assert.True(t, list.Remove(2))
-	assert.Equal(t, 2, list.size)
-	assert.Equal(t, 1, list.head.value)
-	assert.Equal(t, 3, list.tail.value)
-	assert.NotEqual(t, list.tail, list.head)
+	assert.True(test, list.Remove(2))
+	assert.Equal(test, 2, list.size)
+	assert.Equal(test, 1, list.head.value)
+	assert.Equal(test, 3, list.tail.value)
+	assert.NotEqual(test, list.tail, list.head)
 }
 
-func TestSize(t *testing.T) {
-	assert.Equal(t, 0, DoublyLinkedList{}.size)
-	assert.Equal(t, 2, DoublyLinkedList{size: 2}.size)
+func TestSize(test *testing.T) {
+	assert.Equal(test, 0, DoublyLinkedList{}.size)
+	assert.Equal(test, 2, DoublyLinkedList{size: 2}.size)
 }
