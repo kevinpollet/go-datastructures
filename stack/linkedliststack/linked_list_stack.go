@@ -8,8 +8,8 @@
 package linkedliststack
 
 import (
-	"github.com/kevinpollet/go-datastructures/errors"
 	"github.com/kevinpollet/go-datastructures/list/singlylinkedlist"
+	stackp "github.com/kevinpollet/go-datastructures/stack"
 )
 
 // LinkedListStack implementation backed by a singly linked list
@@ -30,7 +30,7 @@ func (stack *LinkedListStack) IsEmpty() bool {
 // Peek returns the value at the top of the stack, nil if empty
 func (stack *LinkedListStack) Peek() (interface{}, error) {
 	if stack.IsEmpty() {
-		return nil, &errors.EmptyStackError{}
+		return nil, &stackp.EmptyStackError{}
 	}
 
 	value, _ := stack.list.Get(0)
@@ -40,7 +40,7 @@ func (stack *LinkedListStack) Peek() (interface{}, error) {
 // Pop removes and returns the value at the top of the stack
 func (stack *LinkedListStack) Pop() (interface{}, error) {
 	if stack.IsEmpty() {
-		return nil, &errors.EmptyStackError{}
+		return nil, &stackp.EmptyStackError{}
 	}
 
 	value, _ := stack.list.Get(0)

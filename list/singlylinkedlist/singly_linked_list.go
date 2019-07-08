@@ -9,8 +9,7 @@ package singlylinkedlist
 
 import (
 	"fmt"
-
-	"github.com/kevinpollet/go-datastructures/errors"
+	listp "github.com/kevinpollet/go-datastructures/list"
 )
 
 type elt struct {
@@ -54,7 +53,7 @@ func (list *SinglyLinkedList) Contains(value interface{}) bool {
 // Get returns the value at the given index in the list
 func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
 	if index < 0 || index >= list.Size() {
-		return nil, &errors.IndexOutOfBoundsError{Index: index, Size: list.Size()}
+		return nil, &listp.IndexOutOfBoundsError{Index: index, Size: list.Size()}
 	}
 
 	it := list.head
@@ -67,7 +66,7 @@ func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
 // Insert adds the given value at the given index in the list
 func (list *SinglyLinkedList) Insert(index int, value interface{}) error {
 	if index < 0 || index > list.Size() {
-		return &errors.IndexOutOfBoundsError{Index: index, Size: list.Size()}
+		return &listp.IndexOutOfBoundsError{Index: index, Size: list.Size()}
 	}
 
 	newElement := &elt{value: value}

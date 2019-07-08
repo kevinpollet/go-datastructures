@@ -5,7 +5,7 @@
  * found in the LICENSE.md file.
  */
 
-package errors
+package stack
 
 // EmptyStackError returned when the given stack is empty
 type EmptyStackError struct {

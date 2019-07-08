@@ -10,7 +10,7 @@ package doublylinkedlist
 import (
 	"fmt"
 
-	"github.com/kevinpollet/go-datastructures/errors"
+	listp "github.com/kevinpollet/go-datastructures/list"
 )
 
 type elt struct {
@@ -62,7 +62,7 @@ func (list *DoublyLinkedList) IsEmpty() bool {
 // If the given index is not in the range [0, list.Size()[ an error is returned.
 func (list *DoublyLinkedList) Get(index int) (interface{}, error) {
 	if index < 0 || index >= list.Size() {
-		return nil, &errors.IndexOutOfBoundsError{Index: index, Size: list.Size()}
+		return nil, &listp.IndexOutOfBoundsError{Index: index, Size: list.Size()}
 	}
 
 	it := list.head
@@ -76,7 +76,7 @@ func (list *DoublyLinkedList) Get(index int) (interface{}, error) {
 // If the given index is not in the range [0, list.Size()] an error is returned.
 func (list *DoublyLinkedList) Insert(index int, value interface{}) error {
 	if index < 0 || index > list.Size() {
-		return &errors.IndexOutOfBoundsError{Index: index, Size: list.Size()}
+		return &listp.IndexOutOfBoundsError{Index: index, Size: list.Size()}
 	}
 
 	if index == list.Size() {

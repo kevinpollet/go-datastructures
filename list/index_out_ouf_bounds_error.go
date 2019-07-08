@@ -5,7 +5,7 @@
  * found in the LICENSE.md file.
  */
 
-package errors
+package list
 
 import (
 	"fmt"
