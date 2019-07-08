@@ -5,6 +5,7 @@
 | Abstract Data Structure | Implementations                    |
 | ----------------------- | ---------------------------------- |
 | List                    | SinglyLinkedList, DoublyLinkedList |
+| Stack                   | LinkedListStack                    |
 
 ## License
 

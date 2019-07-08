@@ -7,7 +7,7 @@
 
 package list
 
-// List ADT
+// List ADS
 type List interface {
 	Add(value interface{})
 	Clear()

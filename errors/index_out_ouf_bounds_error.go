@@ -11,7 +11,7 @@ import (
 	"fmt"
 )
 
-// IndexOutOfBoundsError is an error returned when the given index is not in [0,size[
+// IndexOutOfBoundsError returned when the given index is not in [0,size[
 type IndexOutOfBoundsError struct {
 	Index int
 	Size  int
