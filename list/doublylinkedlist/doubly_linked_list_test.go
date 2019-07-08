@@ -10,8 +10,18 @@ package doublylinkedlist
 import (
 	"testing"
 
+	listPackage "github.com/kevinpollet/go-datastructures/list"
 	"github.com/stretchr/testify/assert"
 )
+
+func TestListImplementation(test *testing.T) {
+	var list interface{} = &DoublyLinkedList{}
+
+	cast, ok := list.(listPackage.List)
+
+	assert.True(test, ok)
+	assert.NotNil(test, cast)
+}
 
 func TestAdd(t *testing.T) {
 	// []

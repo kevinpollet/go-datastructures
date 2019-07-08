@@ -11,8 +11,18 @@ import (
 	"testing"
 
 	"github.com/kevinpollet/go-datastructures/list/singlylinkedlist"
+	stackPackage "github.com/kevinpollet/go-datastructures/stack"
 	"github.com/stretchr/testify/assert"
 )
+
+func TestStackImplementation(test *testing.T) {
+	var stack interface{} = &LinkedListStack{}
+
+	cast, ok := stack.(stackPackage.Stack)
+
+	assert.True(test, ok)
+	assert.NotNil(test, cast)
+}
 
 func TestClear(test *testing.T) {
 	test.Run("should removes all values if the stack is empty", func(subTest *testing.T) {

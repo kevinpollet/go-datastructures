@@ -11,7 +11,7 @@ package stack
 type Stack interface {
 	Clear()
 	IsEmpty() bool
-	Peek() interface{}
+	Peek() (interface{}, error)
 	Pop() (interface{}, error)
 	Push(value interface{})
 	Size() int
