@@ -7,7 +7,7 @@
 
 package list
 
-// List ADS
+// List Abstract Data Structure (ADS)
 type List interface {
 	Add(value interface{})
 	Clear()
