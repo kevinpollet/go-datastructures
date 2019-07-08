@@ -10,10 +10,10 @@ package list
 // List Abstract Data Structure (ADS)
 type List interface {
 	Add(value interface{})
+	AddAtIndex(index int, value interface{}) error
 	Clear()
 	Contains(value interface{}) bool
 	Get(index int) (interface{}, error)
-	Insert(index int, value interface{}) error
 	IsEmpty() bool
 	Join(separator string) string
 	Remove(value interface{}) bool

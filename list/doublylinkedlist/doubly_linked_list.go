@@ -39,6 +39,38 @@ func (list *DoublyLinkedList) Add(value interface{}) {
 	list.size++
 }
 
+// AddAtIndex inserts the given value at the given index.
+// If the given index is not in the range [0, list.Size()] an error is returned.
+func (list *DoublyLinkedList) AddAtIndex(index int, value interface{}) error {
+	if index < 0 || index > list.Size() {
+		return listPackage.NewIndexOutOfBoundsError(index, list.Size())
+	}
+
+	if index == list.Size() {
+		list.Add(value)
+
+	} else if index == 0 {
+		newElement := &elt{next: list.head, value: value}
+		list.head.prev = newElement
+		list.head = newElement
+		list.size++
+
+	} else {
+		it := list.head.next
+		for i := 1; i < index; i++ {
+			it = it.next
+		}
+
+		newElement := &elt{next: it, prev: it.prev, value: value}
+		newElement.prev.next = newElement
+		if it != list.tail {
+			newElement.next.prev = newElement
+		}
+		list.size++
+	}
+	return nil
+}
+
 // Clear removes all values
 func (list *DoublyLinkedList) Clear() {
 	list.head, list.tail, list.size = nil, nil, 0
@@ -70,38 +102,6 @@ func (list *DoublyLinkedList) Get(index int) (interface{}, error) {
 		it = it.next
 	}
 	return it.value, nil
-}
-
-// Insert inserts the given value at the given index.
-// If the given index is not in the range [0, list.Size()] an error is returned.
-func (list *DoublyLinkedList) Insert(index int, value interface{}) error {
-	if index < 0 || index > list.Size() {
-		return listPackage.NewIndexOutOfBoundsError(index, list.Size())
-	}
-
-	if index == list.Size() {
-		list.Add(value)
-
-	} else if index == 0 {
-		newElement := &elt{next: list.head, value: value}
-		list.head.prev = newElement
-		list.head = newElement
-		list.size++
-
-	} else {
-		it := list.head.next
-		for i := 1; i < index; i++ {
-			it = it.next
-		}
-
-		newElement := &elt{next: it, prev: it.prev, value: value}
-		newElement.prev.next = newElement
-		if it != list.tail {
-			newElement.next.prev = newElement
-		}
-		list.size++
-	}
-	return nil
 }
 
 // Join returns a string containing all values separated by the given separator

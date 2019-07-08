@@ -37,35 +37,8 @@ func (list *SinglyLinkedList) Add(value interface{}) {
 	list.size++
 }
 
-// Clear removes all values in the list
-func (list *SinglyLinkedList) Clear() {
-	list.head, list.tail, list.size = nil, nil, 0
-}
-
-// Contains returns true if the list contains the given value, false otherwise
-func (list *SinglyLinkedList) Contains(value interface{}) bool {
-	found := false
-	for it := list.head; !found && it != nil; it = it.next {
-		found = it.value == value
-	}
-	return found
-}
-
-// Get returns the value at the given index in the list
-func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
-	if index < 0 || index >= list.Size() {
-		return nil, listPackage.NewIndexOutOfBoundsError(index, list.Size())
-	}
-
-	it := list.head
-	for i := 1; i <= index; i++ {
-		it = it.next
-	}
-	return it.value, nil
-}
-
-// Insert adds the given value at the given index in the list
-func (list *SinglyLinkedList) Insert(index int, value interface{}) error {
+// AddAtIndex adds the given value at the given index in the list
+func (list *SinglyLinkedList) AddAtIndex(index int, value interface{}) error {
 	if index < 0 || index > list.Size() {
 		return listPackage.NewIndexOutOfBoundsError(index, list.Size())
 	}
@@ -92,6 +65,33 @@ func (list *SinglyLinkedList) Insert(index int, value interface{}) error {
 		list.size++
 	}
 	return nil
+}
+
+// Clear removes all values in the list
+func (list *SinglyLinkedList) Clear() {
+	list.head, list.tail, list.size = nil, nil, 0
+}
+
+// Contains returns true if the list contains the given value, false otherwise
+func (list *SinglyLinkedList) Contains(value interface{}) bool {
+	found := false
+	for it := list.head; !found && it != nil; it = it.next {
+		found = it.value == value
+	}
+	return found
+}
+
+// Get returns the value at the given index in the list
+func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
+	if index < 0 || index >= list.Size() {
+		return nil, listPackage.NewIndexOutOfBoundsError(index, list.Size())
+	}
+
+	it := list.head
+	for i := 1; i <= index; i++ {
+		it = it.next
+	}
+	return it.value, nil
 }
 
 // IsEmpty returns true if the list is empty, false otherwise
