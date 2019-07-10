@@ -7,7 +7,7 @@
 
 package stack
 
-// Stack Abstract Data Structure (ADS)
+// Stack Abstract Data Type (ADT)
 type Stack interface {
 	Clear()
 	IsEmpty() bool

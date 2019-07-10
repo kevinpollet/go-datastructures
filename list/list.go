@@ -7,7 +7,7 @@
 
 package list
 
-// List Abstract Data Structure (ADS)
+// List Abstract Data Type (ADT)
 type List interface {
 	Add(value interface{})
 	AddAtIndex(index int, value interface{}) error
