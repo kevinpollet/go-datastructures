@@ -8,6 +8,6 @@
 | Stack              | LinkedListStack                    |
 | Queue              | LinkedListQueue                    |
 
-## License
+## Licens
 
 [MIT](./LICENSE.md) © kevinpollet
