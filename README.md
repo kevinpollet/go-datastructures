@@ -7,6 +7,7 @@
 | List               | SinglyLinkedList, DoublyLinkedList |
 | Stack              | LinkedListStack                    |
 | Queue              | LinkedListQueue                    |
+| PriorityQueue      |                                    |
 
 ## License
 
