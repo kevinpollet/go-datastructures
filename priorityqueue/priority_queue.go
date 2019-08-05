@@ -11,8 +11,8 @@ package priorityqueue
 type PriorityQueue interface {
 	Clear()
 	Insert(value interface{}, priority int)
-	IsEmpty()
+	IsEmpty() bool
 	Peek() (interface{}, error)
 	Poll() (interface{}, error)
-	Size()
+	Size() int
 }
