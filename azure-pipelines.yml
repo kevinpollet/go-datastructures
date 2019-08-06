@@ -1,5 +1,8 @@
 trigger:
   batch: true
+  branches:
+    include:
+      - master
 
 pool:
   vmImage: ubuntu-16.04
