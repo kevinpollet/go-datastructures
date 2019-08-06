@@ -23,16 +23,9 @@ type BinaryHeap struct {
 	tree []*node
 }
 
-// NewBinaryHeap constructs and returns a new instance of BinaryHeap.
-func NewBinaryHeap() *BinaryHeap {
-	return &BinaryHeap{
-		tree: make([]*node, 0),
-	}
-}
-
 // Clear removes all values from the heap.
 func (heap *BinaryHeap) Clear() {
-	heap.tree = make([]*node, 0)
+	heap.tree = nil
 }
 
 // Insert adds the given value to the heap with the given priority.
