@@ -10,7 +10,7 @@ package singlylinkedlist
 import (
 	"fmt"
 
-	listPackage "github.com/kevinpollet/go-datastructures/list"
+	"github.com/kevinpollet/go-datastructures/errors"
 )
 
 type elt struct {
@@ -40,7 +40,7 @@ func (list *SinglyLinkedList) Add(value interface{}) {
 // AddAtIndex adds the given value at the given index in the list
 func (list *SinglyLinkedList) AddAtIndex(index int, value interface{}) error {
 	if index < 0 || index > list.Size() {
-		return listPackage.NewIndexOutOfBoundsError(index, list.Size())
+		return errors.NewIndexOutOfBoundsError(index, list.Size())
 	}
 
 	newElement := &elt{value: value}
@@ -84,7 +84,7 @@ func (list *SinglyLinkedList) Contains(value interface{}) bool {
 // Get returns the value at the given index in the list
 func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
 	if index < 0 || index >= list.Size() {
-		return nil, listPackage.NewIndexOutOfBoundsError(index, list.Size())
+		return nil, errors.NewIndexOutOfBoundsError(index, list.Size())
 	}
 
 	it := list.head
@@ -147,7 +147,7 @@ func (list *SinglyLinkedList) Remove(value interface{}) bool {
 // RemoveAtIndex removes the given value from the list at the given index
 func (list *SinglyLinkedList) RemoveAtIndex(index int) error {
 	if index < 0 || index >= list.Size() {
-		return listPackage.NewIndexOutOfBoundsError(index, list.Size())
+		return errors.NewIndexOutOfBoundsError(index, list.Size())
 	}
 
 	it := list.head

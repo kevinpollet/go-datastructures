@@ -10,7 +10,7 @@ package binaryheap
 import (
 	"fmt"
 
-	"github.com/kevinpollet/go-datastructures/priorityqueue"
+	"github.com/kevinpollet/go-datastructures/errors"
 )
 
 type node struct {
@@ -18,7 +18,7 @@ type node struct {
 	priority int
 }
 
-// BinaryHeap implementation of PriorityQueue ADT
+// BinaryHeap implementation of the PriorityQueue ADT
 type BinaryHeap struct {
 	tree []*node
 }
@@ -59,7 +59,7 @@ func (heap *BinaryHeap) IsEmpty() bool {
 // Peek returns the value at the head of the heap
 func (heap *BinaryHeap) Peek() (interface{}, error) {
 	if heap.IsEmpty() {
-		return nil, priorityqueue.NewEmptyPriorityQueueError()
+		return nil, errors.NewNoSuchElementError("cannot peek a value from an empty heap")
 	}
 	return heap.tree[0].value, nil
 }
@@ -67,7 +67,7 @@ func (heap *BinaryHeap) Peek() (interface{}, error) {
 // Poll returns and removes the value at the head of the heap
 func (heap *BinaryHeap) Poll() (interface{}, error) {
 	if heap.IsEmpty() {
-		return nil, priorityqueue.NewEmptyPriorityQueueError()
+		return nil, errors.NewNoSuchElementError("cannot poll a value from an empty heap")
 	}
 
 	rootNode := heap.tree[0]

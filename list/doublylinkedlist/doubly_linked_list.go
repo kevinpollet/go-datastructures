@@ -10,7 +10,7 @@ package doublylinkedlist
 import (
 	"fmt"
 
-	listPackage "github.com/kevinpollet/go-datastructures/list"
+	"github.com/kevinpollet/go-datastructures/errors"
 )
 
 type elt struct {
@@ -43,7 +43,7 @@ func (list *DoublyLinkedList) Add(value interface{}) {
 // If the given index is not in the range [0, list.Size()] an error is returned.
 func (list *DoublyLinkedList) AddAtIndex(index int, value interface{}) error {
 	if index < 0 || index > list.Size() {
-		return listPackage.NewIndexOutOfBoundsError(index, list.Size())
+		return errors.NewIndexOutOfBoundsError(index, list.Size())
 	}
 
 	if index == list.Size() {
@@ -94,7 +94,7 @@ func (list *DoublyLinkedList) IsEmpty() bool {
 // If the given index is not in the range [0, list.Size()[ an error is returned.
 func (list *DoublyLinkedList) Get(index int) (interface{}, error) {
 	if index < 0 || index >= list.Size() {
-		return nil, listPackage.NewIndexOutOfBoundsError(index, list.Size())
+		return nil, errors.NewIndexOutOfBoundsError(index, list.Size())
 	}
 
 	it := list.head
@@ -149,7 +149,7 @@ func (list *DoublyLinkedList) Remove(value interface{}) bool {
 // RemoveAtIndex removes the given value from the list at the given index
 func (list *DoublyLinkedList) RemoveAtIndex(index int) error {
 	if index < 0 || index >= list.Size() {
-		return listPackage.NewIndexOutOfBoundsError(index, list.Size())
+		return errors.NewIndexOutOfBoundsError(index, list.Size())
 	}
 
 	it := list.head
