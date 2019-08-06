@@ -11,7 +11,7 @@ import (
 	"testing"
 
 	"github.com/kevinpollet/go-datastructures/list/doublylinkedlist"
-	queuePkg "github.com/kevinpollet/go-datastructures/queue"
+	"github.com/kevinpollet/go-datastructures/queue"
 	"github.com/stretchr/testify/assert"
 )
 
@@ -33,9 +33,9 @@ func newLinkedListQueue(values ...int) LinkedListQueue {
 }
 
 func TestQueueAssertion(test *testing.T) {
-	var queue interface{} = &LinkedListQueue{}
+	var linkedListQueue interface{} = &LinkedListQueue{}
 
-	value, ok := queue.(queuePkg.Queue)
+	value, ok := linkedListQueue.(queue.Queue)
 
 	assert.True(test, ok)
 	assert.NotNil(test, value)

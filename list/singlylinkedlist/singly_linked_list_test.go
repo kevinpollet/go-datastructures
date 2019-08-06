@@ -10,14 +10,14 @@ package singlylinkedlist
 import (
 	"testing"
 
-	listPkg "github.com/kevinpollet/go-datastructures/list"
+	"github.com/kevinpollet/go-datastructures/list"
 	"github.com/stretchr/testify/assert"
 )
 
-func TestListImplementation(test *testing.T) {
-	var list interface{} = &SinglyLinkedList{}
+func TestListAssertion(test *testing.T) {
+	var singlyLinkedList interface{} = &SinglyLinkedList{}
 
-	cast, ok := list.(listPkg.List)
+	cast, ok := singlyLinkedList.(list.List)
 
 	assert.True(test, ok)
 	assert.NotNil(test, cast)

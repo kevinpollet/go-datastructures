@@ -14,10 +14,10 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestPriorityQueueImplementation(test *testing.T) {
-	var queue interface{} = &BinaryHeap{}
+func TestPriorityQueueAssertion(test *testing.T) {
+	var binaryHeap interface{} = &BinaryHeap{}
 
-	cast, ok := queue.(priorityqueue.PriorityQueue)
+	cast, ok := binaryHeap.(priorityqueue.PriorityQueue)
 
 	assert.True(test, ok)
 	assert.NotNil(test, cast)
