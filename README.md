@@ -9,6 +9,15 @@
 | Queue              | LinkedListQueue                    |
 | PriorityQueue      |                                    |
 
+## Contributing
+
+Contributions are very welcome!
+
+If you see an issue or want to contribute some code use the following links:
+
+- [New issue](https://github.com/kevinpollet/go-datastructures/issues/new)
+- [New pull request](https://github.com/kevinpollet/go-datastructures/pulls)
+
 ## License
 
 [MIT](./LICENSE.md) © kevinpollet
