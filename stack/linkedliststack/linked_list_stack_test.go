@@ -11,14 +11,14 @@ import (
 	"testing"
 
 	"github.com/kevinpollet/go-datastructures/list/singlylinkedlist"
-	stackPackage "github.com/kevinpollet/go-datastructures/stack"
+	stackPkg "github.com/kevinpollet/go-datastructures/stack"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestStackImplementation(test *testing.T) {
 	var stack interface{} = &LinkedListStack{}
 
-	cast, ok := stack.(stackPackage.Stack)
+	cast, ok := stack.(stackPkg.Stack)
 
 	assert.True(test, ok)
 	assert.NotNil(test, cast)

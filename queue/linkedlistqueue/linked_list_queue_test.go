@@ -10,14 +10,14 @@ package linkedlistqueue
 import (
 	"testing"
 
-	queuePackage "github.com/kevinpollet/go-datastructures/queue"
+	queuePkg "github.com/kevinpollet/go-datastructures/queue"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestQueueImplementation(test *testing.T) {
 	var queue interface{} = &LinkedListQueue{}
 
-	cast, ok := queue.(queuePackage.Queue)
+	cast, ok := queue.(queuePkg.Queue)
 
 	assert.True(test, ok)
 	assert.NotNil(test, cast)
