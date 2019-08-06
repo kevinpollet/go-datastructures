@@ -7,7 +7,7 @@
 
 package priorityqueue
 
-// PriorityQueue Abstract Data Type (ADT)
+// PriorityQueue Abstract Data Type (ADT).
 type PriorityQueue interface {
 	Clear()
 	Insert(value interface{}, priority int)

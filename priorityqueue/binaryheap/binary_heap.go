@@ -18,24 +18,24 @@ type node struct {
 	priority int
 }
 
-// BinaryHeap implementation of the PriorityQueue ADT
+// BinaryHeap implements the PriorityQueue ADT.
 type BinaryHeap struct {
 	tree []*node
 }
 
-// NewBinaryHeap constructs and returns a new instance of BinaryHeap
+// NewBinaryHeap constructs and returns a new instance of BinaryHeap.
 func NewBinaryHeap() *BinaryHeap {
 	return &BinaryHeap{
 		tree: make([]*node, 0),
 	}
 }
 
-// Clear removes all values in the heap
+// Clear removes all values from the heap.
 func (heap *BinaryHeap) Clear() {
 	heap.tree = make([]*node, 0)
 }
 
-// Insert adds the given value to the heap with the given priority
+// Insert adds the given value to the heap with the given priority.
 func (heap *BinaryHeap) Insert(value interface{}, priority int) {
 	heap.tree = append(heap.tree, &node{value: value, priority: priority})
 
@@ -51,12 +51,12 @@ func (heap *BinaryHeap) Insert(value interface{}, priority int) {
 	}
 }
 
-// IsEmpty returns true if the heap is empty, false otherwise
+// IsEmpty returns true if the heap is empty, false otherwise.
 func (heap *BinaryHeap) IsEmpty() bool {
 	return heap.Size() == 0
 }
 
-// Peek returns the value at the head of the heap
+// Peek returns the value with the hightest priority in the heap or an error if the heap is empty.
 func (heap *BinaryHeap) Peek() (interface{}, error) {
 	if heap.IsEmpty() {
 		return nil, errors.NewNoSuchElementError("cannot peek a value from an empty heap")
@@ -64,7 +64,7 @@ func (heap *BinaryHeap) Peek() (interface{}, error) {
 	return heap.tree[0].value, nil
 }
 
-// Poll returns and removes the value at the head of the heap
+// Poll returns and removes the value with the hightest priority in the heap or an error if the heap is empty.
 func (heap *BinaryHeap) Poll() (interface{}, error) {
 	if heap.IsEmpty() {
 		return nil, errors.NewNoSuchElementError("cannot poll a value from an empty heap")
@@ -100,7 +100,7 @@ func (heap *BinaryHeap) Poll() (interface{}, error) {
 	return rootNode.value, nil
 }
 
-// Size returns the number of values in the heap
+// Size returns the number of values in the heap.
 func (heap *BinaryHeap) Size() int {
 	return len(heap.tree)
 }

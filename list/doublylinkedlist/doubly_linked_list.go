@@ -19,14 +19,14 @@ type elt struct {
 	value interface{}
 }
 
-// DoublyLinkedList implementation of list Abstract Data Structure
+// DoublyLinkedList implements the List ADT.
 type DoublyLinkedList struct {
 	head *elt
 	tail *elt
 	size int
 }
 
-// Add append the given value to the list
+// Add appends the given value to the list.
 func (list *DoublyLinkedList) Add(value interface{}) {
 	if list.IsEmpty() {
 		list.head = &elt{value: value}
@@ -39,8 +39,7 @@ func (list *DoublyLinkedList) Add(value interface{}) {
 	list.size++
 }
 
-// AddAtIndex inserts the given value at the given index.
-// If the given index is not in the range [0, list.Size()] an error is returned.
+// AddAtIndex inserts the given value at the given index or returns an error if the given index is out of bounds.
 func (list *DoublyLinkedList) AddAtIndex(index int, value interface{}) error {
 	if index < 0 || index > list.Size() {
 		return errors.NewIndexOutOfBoundsError(index, list.Size())
@@ -71,12 +70,12 @@ func (list *DoublyLinkedList) AddAtIndex(index int, value interface{}) error {
 	return nil
 }
 
-// Clear removes all values
+// Clear removes all values from the list.
 func (list *DoublyLinkedList) Clear() {
 	list.head, list.tail, list.size = nil, nil, 0
 }
 
-// Contains returns true if the list contains the given value
+// Contains returns true if the list contains the given value, false otherwise.
 func (list *DoublyLinkedList) Contains(value interface{}) bool {
 	found := false
 	for it := list.head; !found && it != nil; it = it.next {
@@ -85,13 +84,12 @@ func (list *DoublyLinkedList) Contains(value interface{}) bool {
 	return found
 }
 
-// IsEmpty return true if the list is empty, false otherwise
+// IsEmpty return true if the list is empty, false otherwise.
 func (list *DoublyLinkedList) IsEmpty() bool {
 	return list.size == 0
 }
 
-// Get returns the value at the given index.
-// If the given index is not in the range [0, list.Size()[ an error is returned.
+// Get returns the value at the given index or an error if the given index is out of bounds.
 func (list *DoublyLinkedList) Get(index int) (interface{}, error) {
 	if index < 0 || index >= list.Size() {
 		return nil, errors.NewIndexOutOfBoundsError(index, list.Size())
@@ -104,7 +102,7 @@ func (list *DoublyLinkedList) Get(index int) (interface{}, error) {
 	return it.value, nil
 }
 
-// Join returns a string containing all values separated by the given separator
+// Join returns a string with all list values concatenated and separated by the given separator.
 func (list *DoublyLinkedList) Join(separator string) string {
 	str := ""
 
@@ -118,7 +116,7 @@ func (list *DoublyLinkedList) Join(separator string) string {
 	return str
 }
 
-// Remove removes the given value and returns true if value exists, false otherwise
+// Remove removes the given value and returns true if the value has been removed, false otherwise.
 func (list *DoublyLinkedList) Remove(value interface{}) bool {
 	found := false
 	if !list.IsEmpty() {
@@ -146,7 +144,7 @@ func (list *DoublyLinkedList) Remove(value interface{}) bool {
 	return found
 }
 
-// RemoveAtIndex removes the given value from the list at the given index
+// RemoveAtIndex removes the value at the given index from the list or returns an error if the given index is out of bounds.
 func (list *DoublyLinkedList) RemoveAtIndex(index int) error {
 	if index < 0 || index >= list.Size() {
 		return errors.NewIndexOutOfBoundsError(index, list.Size())
@@ -180,7 +178,7 @@ func (list *DoublyLinkedList) RemoveAtIndex(index int) error {
 	return nil
 }
 
-// Size return the number of elements in the list
+// Size return the number of value in the list.
 func (list *DoublyLinkedList) Size() int {
 	return list.size
 }

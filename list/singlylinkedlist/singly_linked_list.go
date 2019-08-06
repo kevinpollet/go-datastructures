@@ -18,14 +18,14 @@ type elt struct {
 	value interface{}
 }
 
-// SinglyLinkedList implementation of list Abstract Data Structure
+// SinglyLinkedList implements the List ADT.
 type SinglyLinkedList struct {
 	head *elt
 	tail *elt
 	size int
 }
 
-// Add appends the given value to the list
+// Add appends the given value to the list.
 func (list *SinglyLinkedList) Add(value interface{}) {
 	if list.IsEmpty() {
 		list.head = &elt{value: value}
@@ -37,7 +37,7 @@ func (list *SinglyLinkedList) Add(value interface{}) {
 	list.size++
 }
 
-// AddAtIndex adds the given value at the given index in the list
+// AddAtIndex adds the given value at the given index in the list or returns an error if the given index is out of bounds.
 func (list *SinglyLinkedList) AddAtIndex(index int, value interface{}) error {
 	if index < 0 || index > list.Size() {
 		return errors.NewIndexOutOfBoundsError(index, list.Size())
@@ -67,12 +67,12 @@ func (list *SinglyLinkedList) AddAtIndex(index int, value interface{}) error {
 	return nil
 }
 
-// Clear removes all values in the list
+// Clear removes all values from the list.
 func (list *SinglyLinkedList) Clear() {
 	list.head, list.tail, list.size = nil, nil, 0
 }
 
-// Contains returns true if the list contains the given value, false otherwise
+// Contains returns true if the list contains the given value, false otherwise.
 func (list *SinglyLinkedList) Contains(value interface{}) bool {
 	found := false
 	for it := list.head; !found && it != nil; it = it.next {
@@ -81,7 +81,7 @@ func (list *SinglyLinkedList) Contains(value interface{}) bool {
 	return found
 }
 
-// Get returns the value at the given index in the list
+// Get returns the value at the given index in the list or an error if the given index is out of bounds.
 func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
 	if index < 0 || index >= list.Size() {
 		return nil, errors.NewIndexOutOfBoundsError(index, list.Size())
@@ -94,12 +94,12 @@ func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
 	return it.value, nil
 }
 
-// IsEmpty returns true if the list is empty, false otherwise
+// IsEmpty returns true if the list is empty, false otherwise.
 func (list *SinglyLinkedList) IsEmpty() bool {
 	return list.size == 0
 }
 
-// Join returns a string with all the concatenated and separated by the given separator
+// Join returns a string with all list values concatenated and separated by the given separator.
 func (list *SinglyLinkedList) Join(separator string) string {
 	str := ""
 
@@ -113,7 +113,7 @@ func (list *SinglyLinkedList) Join(separator string) string {
 	return str
 }
 
-// Remove removes the given value from the list and returns true if the value has been removed, false otherwise
+// Remove removes the given value in the list and returns true if the value has been removed, false otherwise.
 func (list *SinglyLinkedList) Remove(value interface{}) bool {
 	found := false
 
@@ -144,7 +144,7 @@ func (list *SinglyLinkedList) Remove(value interface{}) bool {
 	return found
 }
 
-// RemoveAtIndex removes the given value from the list at the given index
+// RemoveAtIndex removes the value at the given index from the list or returns an error if the given index is out of bounds.
 func (list *SinglyLinkedList) RemoveAtIndex(index int) error {
 	if index < 0 || index >= list.Size() {
 		return errors.NewIndexOutOfBoundsError(index, list.Size())
@@ -173,7 +173,7 @@ func (list *SinglyLinkedList) RemoveAtIndex(index int) error {
 	return nil
 }
 
-// Size returns the number of values in the list
+// Size returns the number of values in the list.
 func (list SinglyLinkedList) Size() int {
 	return list.size
 }

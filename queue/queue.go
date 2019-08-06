@@ -7,7 +7,7 @@
 
 package queue
 
-// Queue Abstract Data Type (ADT)
+// Queue Abstract Data Type (ADT).
 type Queue interface {
 	Clear()
 	Dequeue() (interface{}, error)

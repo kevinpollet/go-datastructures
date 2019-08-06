@@ -12,22 +12,22 @@ import (
 	"github.com/kevinpollet/go-datastructures/list/singlylinkedlist"
 )
 
-// LinkedListStack implementation of Stack ADT backed by a singly linked list
+// LinkedListStack implements the Stack ADT with a SinglyLinkedList.
 type LinkedListStack struct {
 	list singlylinkedlist.SinglyLinkedList
 }
 
-// Clear removes all values in the stack
+// Clear removes all values from the stack.
 func (stack *LinkedListStack) Clear() {
 	stack.list.Clear()
 }
 
-// IsEmpty returns true is the stack is empty, false otherwise
+// IsEmpty returns true if the stack is empty, false otherwise.
 func (stack *LinkedListStack) IsEmpty() bool {
 	return stack.list.IsEmpty()
 }
 
-// Peek returns the value at the top of the stack or an error if the stack is empty
+// Peek returns the value at the top of the stack or an error if the stack is empty.
 func (stack *LinkedListStack) Peek() (interface{}, error) {
 	if stack.IsEmpty() {
 		return nil, errors.NewNoSuchElementError("cannot peek a value from an empty stack")
@@ -37,7 +37,7 @@ func (stack *LinkedListStack) Peek() (interface{}, error) {
 	return value, nil
 }
 
-// Pop removes and returns the value at the top of the stack or an error if the stack is empty
+// Pop removes and returns the value at the top of the stack or an error if the stack is empty.
 func (stack *LinkedListStack) Pop() (interface{}, error) {
 	if stack.IsEmpty() {
 		return nil, errors.NewNoSuchElementError("cannot pop a value from an empty stack")
@@ -49,12 +49,12 @@ func (stack *LinkedListStack) Pop() (interface{}, error) {
 	return value, nil
 }
 
-// Push adds the given value to the top of the stack
+// Push adds the given value to the top of the stack.
 func (stack *LinkedListStack) Push(value interface{}) {
 	stack.list.AddAtIndex(0, value)
 }
 
-// Size returns the number of values in the stack
+// Size returns the number of values in the stack.
 func (stack *LinkedListStack) Size() int {
 	return stack.list.Size()
 }
