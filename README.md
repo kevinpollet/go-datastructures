@@ -1,4 +1,4 @@
-# Go Data Structures &middot; [![Build Status](https://dev.azure.com/kevinpollet/go-datastructures/_apis/build/status/kevinpollet.go-datastructures?branchName=master)](https://dev.azure.com/kevinpollet/go-datastructures/_build/latest?definitionId=7&branchName=master) [![Go Report Card](https://goreportcard.com/badge/github.com/kevinpollet/go-datastructures)](https://goreportcard.com/report/github.com/kevinpollet/go-datastructures)
+# Go Data Structures &middot; [![GoDoc](https://godoc.org/github.com/kevinpollet/go-datastructures?status.svg)](https://godoc.org/github.com/kevinpollet/go-datastructures) [![Go Report Card](https://goreportcard.com/badge/github.com/kevinpollet/go-datastructures)](https://goreportcard.com/report/github.com/kevinpollet/go-datastructures) [![Build Status](https://dev.azure.com/kevinpollet/go-datastructures/_apis/build/status/kevinpollet.go-datastructures?branchName=master)](https://dev.azure.com/kevinpollet/go-datastructures/_build/latest?definitionId=7&branchName=master)
 
 ## Motivation
 
