@@ -6,6 +6,12 @@ I'm learning the Go programming language and reviewing the common Abstract Data 
 
 Do not use this project in production! If you want a list of existing libraries, read the corresponding section in the [awesome-go](https://github.com/avelino/awesome-go#data-structures) project.
 
+## Usage
+
+```shell
+$ go get github.com/kevinpollet/go-datastructures/...
+```
+
 ## Contributing
 
 Contributions are very welcome!
