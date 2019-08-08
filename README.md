@@ -8,6 +8,11 @@ This project has been created to keep track of my learnings and experiments whil
 $ go get github.com/kevinpollet/go-datastructures/...
 ```
 
+## Readings & Lectures
+
+- [Abstract Data Types](https://brilliant.org/wiki/abstract-data-types/)
+- [Easy to Advanced Data Structures](https://www.udemy.com/introduction-to-data-structures/)
+
 ## Contributing
 
 Contributions are very welcome!
