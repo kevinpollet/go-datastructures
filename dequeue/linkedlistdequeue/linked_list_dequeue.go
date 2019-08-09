@@ -25,7 +25,7 @@ func (dequeue *LinkedListDequeue) Clear() {
 // DequeueFirst removes and returns the first value from the dequeue or returns an error if the dequeue is empty.
 func (dequeue *LinkedListDequeue) DequeueFirst() (interface{}, error) {
 	if dequeue.list.IsEmpty() {
-		return nil, errors.NewNoSuchElementError("cannot dequeue the first value of an empty dequeue")
+		return nil, errors.NewNoSuchValueError("cannot dequeue the first value of an empty dequeue")
 	}
 
 	value, _ := dequeue.list.Get(0)
@@ -36,7 +36,7 @@ func (dequeue *LinkedListDequeue) DequeueFirst() (interface{}, error) {
 // DequeueLast removes and returns the last value from the dequeue or returns an error if the dequeue is empty.
 func (dequeue *LinkedListDequeue) DequeueLast() (interface{}, error) {
 	if dequeue.list.IsEmpty() {
-		return nil, errors.NewNoSuchElementError("cannot dequeue the last value of an empty dequeue")
+		return nil, errors.NewNoSuchValueError("cannot dequeue the last value of an empty dequeue")
 	}
 
 	index := dequeue.list.Size() - 1
@@ -58,7 +58,7 @@ func (dequeue *LinkedListDequeue) IsEmpty() bool {
 // PeekFirst returns the first value in the dequeue or an error if the dequeue is empty.
 func (dequeue *LinkedListDequeue) PeekFirst() (interface{}, error) {
 	if dequeue.IsEmpty() {
-		return nil, errors.NewNoSuchElementError("cannot peek the first value of an empty dequeue")
+		return nil, errors.NewNoSuchValueError("cannot peek the first value of an empty dequeue")
 	}
 	value, _ := dequeue.list.Get(0)
 	return value, nil
@@ -67,7 +67,7 @@ func (dequeue *LinkedListDequeue) PeekFirst() (interface{}, error) {
 // PeekLast returns the last value in the dequeue or an error if the dequeue is empty.
 func (dequeue *LinkedListDequeue) PeekLast() (interface{}, error) {
 	if dequeue.IsEmpty() {
-		return nil, errors.NewNoSuchElementError("cannot peek the last value of an empty dequeue")
+		return nil, errors.NewNoSuchValueError("cannot peek the last value of an empty dequeue")
 	}
 	value, _ := dequeue.list.Get(dequeue.list.Size() - 1)
 	return value, nil

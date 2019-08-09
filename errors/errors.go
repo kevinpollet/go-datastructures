@@ -7,41 +7,36 @@
 
 package errors
 
-import (
-	"fmt"
-)
+import "fmt"
 
-// NoSuchElementError is returned to indicate that there are no values in the ADT implementation
-type NoSuchElementError struct {
+// NoSuchValueError is returned to indicate that the data structure has no values.
+type NoSuchValueError struct {
 	detail string
 }
 
-// NewNoSuchElementError constructs and returns an instance of NoSuchElementError
-func NewNoSuchElementError(detail string) *NoSuchElementError {
-	return &NoSuchElementError{detail: detail}
+// NewNoSuchValueError constructs and returns an instance of NoSuchValueError.
+func NewNoSuchValueError(detail string) *NoSuchValueError {
+	return &NoSuchValueError{detail: detail}
 }
 
-func (err *NoSuchElementError) Error() string {
-	if err.detail == "" {
-		return fmt.Sprintf("NoSuchElementError")
-	}
-	return fmt.Sprintf("NoSuchElementError: %s", err.detail)
+func (err *NoSuchValueError) Error() string {
+	return fmt.Sprintf("NoSuchValueError: %s", err.detail)
 }
 
-// IndexOutOfBoundsError is returned that the given index is out of bounds
+// IndexOutOfBoundsError is returned when the given index is not within bounds [0, max[.
 type IndexOutOfBoundsError struct {
 	index int
-	size  int
+	max   int
 }
 
-// NewIndexOutOfBoundsError constructs and returns an instance of IndexOutOfBoundsError
-func NewIndexOutOfBoundsError(index, size int) *IndexOutOfBoundsError {
+// NewIndexOutOfBoundsError constructs and returns an instance of IndexOutOfBoundsError.
+func NewIndexOutOfBoundsError(index, max int) *IndexOutOfBoundsError {
 	return &IndexOutOfBoundsError{
 		index: index,
-		size:  size,
+		max:   max,
 	}
 }
 
 func (err *IndexOutOfBoundsError) Error() string {
-	return fmt.Sprintf("IndexOutOfBoundsError: index %d, size %d", err.index, err.size)
+	return fmt.Sprintf("IndexOutOfBoundsError: index %v, bounds [0,%v[", err.index, err.max)
 }

@@ -25,7 +25,7 @@ func (queue *LinkedListQueue) Clear() {
 // Dequeue removes and returns the first value in the queue or returns an error if the queue is empty.
 func (queue *LinkedListQueue) Dequeue() (interface{}, error) {
 	if queue.IsEmpty() {
-		return nil, errors.NewNoSuchElementError("cannot dequeue a value from an empty queue")
+		return nil, errors.NewNoSuchValueError("cannot dequeue a value from an empty queue")
 	}
 
 	elt, _ := queue.list.Get(0)
@@ -46,7 +46,7 @@ func (queue *LinkedListQueue) IsEmpty() bool {
 // Peek returns the first value in the queue or returns an error if the queue is empty.
 func (queue *LinkedListQueue) Peek() (interface{}, error) {
 	if queue.IsEmpty() {
-		return nil, errors.NewNoSuchElementError("cannot peek a value from an empty queue")
+		return nil, errors.NewNoSuchValueError("cannot peek a value from an empty queue")
 	}
 	return queue.list.Get(0)
 }

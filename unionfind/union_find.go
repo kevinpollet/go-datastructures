@@ -7,9 +7,7 @@
 
 package unionfind
 
-import (
-	"fmt"
-)
+import "fmt"
 
 // UnionFind data structure implementation.
 type UnionFind struct {

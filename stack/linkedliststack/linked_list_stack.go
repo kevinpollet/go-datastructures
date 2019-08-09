@@ -34,7 +34,7 @@ func (stack *LinkedListStack) IsEmpty() bool {
 func (stack *LinkedListStack) Peek() (interface{}, error) {
 	value, err := stack.list.Get(0)
 	if _, ok := err.(*errors.IndexOutOfBoundsError); ok {
-		return nil, errors.NewNoSuchElementError("cannot peek a value from an empty stack")
+		return nil, errors.NewNoSuchValueError("cannot peek a value from an empty stack")
 	}
 
 	return value, nil
@@ -45,7 +45,7 @@ func (stack *LinkedListStack) Peek() (interface{}, error) {
 func (stack *LinkedListStack) Pop() (interface{}, error) {
 	value, err := stack.list.Remove(0)
 	if _, ok := err.(*errors.IndexOutOfBoundsError); ok {
-		return nil, errors.NewNoSuchElementError("cannot pop a value from an empty stack")
+		return nil, errors.NewNoSuchValueError("cannot pop a value from an empty stack")
 	}
 
 	return value, nil

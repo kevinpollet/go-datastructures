@@ -52,7 +52,7 @@ func (heap *BinaryHeap) IsEmpty() bool {
 // Peek returns the value with the hightest priority in the heap or an error if the heap is empty.
 func (heap *BinaryHeap) Peek() (interface{}, error) {
 	if heap.IsEmpty() {
-		return nil, errors.NewNoSuchElementError("cannot peek a value from an empty heap")
+		return nil, errors.NewNoSuchValueError("cannot peek a value from an empty heap")
 	}
 	return heap.tree[0].value, nil
 }
@@ -60,7 +60,7 @@ func (heap *BinaryHeap) Peek() (interface{}, error) {
 // Poll returns and removes the value with the hightest priority in the heap or an error if the heap is empty.
 func (heap *BinaryHeap) Poll() (interface{}, error) {
 	if heap.IsEmpty() {
-		return nil, errors.NewNoSuchElementError("cannot poll a value from an empty heap")
+		return nil, errors.NewNoSuchValueError("cannot poll a value from an empty heap")
 	}
 
 	rootNode := heap.tree[0]

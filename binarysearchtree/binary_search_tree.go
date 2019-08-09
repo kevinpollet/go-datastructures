@@ -33,7 +33,7 @@ func (tree *BinarySearchTree) Add(value int) {
 // Remove removes the given value from the tree.
 func (tree *BinarySearchTree) Remove(value int) (bool, error) {
 	if tree.IsEmpty() {
-		return false, errors.NewNoSuchElementError("cannot remove a value from an empty tree")
+		return false, errors.NewNoSuchValueError("cannot remove a value from an empty tree")
 	}
 
 	root, removed := remove(tree.root, value)
