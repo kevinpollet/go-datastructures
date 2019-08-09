@@ -10,12 +10,12 @@ package dequeue
 // Dequeue Abstract Data Types (ADT)
 type Dequeue interface {
 	Clear()
-	Append(value interface{})
-	DequeueFirst() (interface{}, error)
-	DequeueLast() (interface{}, error)
 	IsEmpty() bool
+	OfferFirst(value interface{})
+	OfferLast(value interface{})
 	PeekFirst() (interface{}, error)
 	PeekLast() (interface{}, error)
-	Prepend(value interface{})
+	PollFirst() (interface{}, error)
+	PollLast() (interface{}, error)
 	Size() int
 }
