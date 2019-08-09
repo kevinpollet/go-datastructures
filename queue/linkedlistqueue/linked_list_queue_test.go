@@ -52,30 +52,22 @@ func TestClear(test *testing.T) {
 	}
 }
 
-func TestDequeue(test *testing.T) {
+func TestIsEmpty(test *testing.T) {
 	for _, testCase := range testCases {
 		test.Run(testCase.name, func(t *testing.T) {
 			queue := newLinkedListQueue(testCase.values...)
-			value, err := queue.Dequeue()
 
-			switch {
-			case len(testCase.values) == 0:
-				assert.Nil(t, value)
-				assert.Error(t, err)
-			default:
-				assert.Nil(t, err)
-				assert.Equal(t, testCase.values[0], value)
-			}
+			assert.Equal(t, len(testCase.values) == 0, queue.IsEmpty())
 		})
 	}
 }
 
-func TestEnqueue(test *testing.T) {
+func TestOffer(test *testing.T) {
 	for _, testCase := range testCases {
 		test.Run(testCase.name, func(t *testing.T) {
 			queue := newLinkedListQueue()
 			for _, value := range testCase.values {
-				queue.Enqueue(value)
+				queue.Offer(value)
 			}
 
 			assert.Equal(t, len(testCase.values), queue.list.Size())
@@ -83,16 +75,6 @@ func TestEnqueue(test *testing.T) {
 				listValue, _ := queue.list.Get(idx)
 				assert.Equal(t, value, listValue)
 			}
-		})
-	}
-}
-
-func TestIsEmpty(test *testing.T) {
-	for _, testCase := range testCases {
-		test.Run(testCase.name, func(t *testing.T) {
-			queue := newLinkedListQueue(testCase.values...)
-
-			assert.Equal(t, len(testCase.values) == 0, queue.IsEmpty())
 		})
 	}
 }
@@ -108,6 +90,24 @@ func TestPeek(test *testing.T) {
 				assert.Nil(t, value)
 				assert.Error(t, err)
 			default:
+				assert.Equal(t, testCase.values[0], value)
+			}
+		})
+	}
+}
+
+func TestPoll(test *testing.T) {
+	for _, testCase := range testCases {
+		test.Run(testCase.name, func(t *testing.T) {
+			queue := newLinkedListQueue(testCase.values...)
+			value, err := queue.Poll()
+
+			switch {
+			case len(testCase.values) == 0:
+				assert.Nil(t, value)
+				assert.Error(t, err)
+			default:
+				assert.Nil(t, err)
 				assert.Equal(t, testCase.values[0], value)
 			}
 		})

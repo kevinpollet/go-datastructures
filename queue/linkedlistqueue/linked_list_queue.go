@@ -18,44 +18,53 @@ type LinkedListQueue struct {
 }
 
 // Clear removes all values from the queue.
+// Complexity: O(1)
 func (queue *LinkedListQueue) Clear() {
 	queue.list.Clear()
 }
 
-// Dequeue removes and returns the first value in the queue or returns an error if the queue is empty.
-func (queue *LinkedListQueue) Dequeue() (interface{}, error) {
-	if queue.IsEmpty() {
-		return nil, errors.NewNoSuchValueError("cannot dequeue a value from an empty queue")
-	}
-
-	elt, _ := queue.list.Get(0)
-	queue.list.Remove(0)
-	return elt, nil
-}
-
-// Enqueue appends the given value to the queue.
-func (queue *LinkedListQueue) Enqueue(value interface{}) {
-	queue.list.Add(value)
-}
-
 // IsEmpty returns true if the queue is empty, false otherwise.
+// Complexity: O(1)
 func (queue *LinkedListQueue) IsEmpty() bool {
 	return queue.list.IsEmpty()
 }
 
+// Offer adds the given value to the queue.
+// Complexity: O(1)
+func (queue *LinkedListQueue) Offer(value interface{}) {
+	queue.list.Add(value)
+}
+
 // Peek returns the first value in the queue or returns an error if the queue is empty.
+// Complexity: O(1)
 func (queue *LinkedListQueue) Peek() (interface{}, error) {
-	if queue.IsEmpty() {
+	value, err := queue.list.Get(0)
+	if _, ok := err.(*errors.IndexOutOfBoundsError); ok {
 		return nil, errors.NewNoSuchValueError("cannot peek a value from an empty queue")
 	}
-	return queue.list.Get(0)
+
+	return value, nil
+}
+
+// Poll removes and returns the first value in the queue or returns an error if the queue is empty.
+// Complexity: O(1)
+func (queue *LinkedListQueue) Poll() (interface{}, error) {
+	value, err := queue.list.Remove(0)
+	if _, ok := err.(*errors.IndexOutOfBoundsError); ok {
+		return nil, errors.NewNoSuchValueError("cannot poll a value from an empty queue")
+	}
+
+	return value, nil
 }
 
 // Size returns the number of values in the queue.
+// Complexity: O(1)
 func (queue *LinkedListQueue) Size() int {
 	return queue.list.Size()
 }
 
+// String returns a string representation of this queue.
+// Complexity: O(1)
 func (queue LinkedListQueue) String() string {
 	return queue.list.String()
 }

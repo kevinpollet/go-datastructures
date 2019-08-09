@@ -10,9 +10,9 @@ package queue
 // Queue Abstract Data Type (ADT).
 type Queue interface {
 	Clear()
-	Dequeue() (interface{}, error)
-	Enqueue(value interface{})
 	IsEmpty() bool
+	Offer(value interface{})
 	Peek() (interface{}, error)
+	Poll() (interface{}, error)
 	Size() int
 }
