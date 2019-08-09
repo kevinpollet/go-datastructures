@@ -15,7 +15,6 @@ type List interface {
 	Contains(value interface{}) bool
 	Get(index int) (interface{}, error)
 	IsEmpty() bool
-	Join(separator string) string
 	Remove(value interface{}) bool
 	RemoveAtIndex(index int) error
 	Size() int

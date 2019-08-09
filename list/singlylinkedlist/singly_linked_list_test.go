@@ -150,26 +150,6 @@ func TestIsEmpty(test *testing.T) {
 	assert.False(test, (&SinglyLinkedList{size: 1}).IsEmpty())
 }
 
-func TestJoin(test *testing.T) {
-	// []
-	list := SinglyLinkedList{}
-
-	assert.Equal(test, "", list.Join(","))
-
-	// [foo]
-	list = SinglyLinkedList{}
-	list.Add("foo")
-
-	assert.Equal(test, "foo", list.Join(","))
-
-	// ["foo,bar"]
-	list = SinglyLinkedList{}
-	list.Add("foo")
-	list.Add("bar")
-
-	assert.Equal(test, "foo,bar", list.Join(","))
-}
-
 func TestRemove(test *testing.T) {
 	// []
 	list := SinglyLinkedList{}

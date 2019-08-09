@@ -99,20 +99,6 @@ func (list *SinglyLinkedList) IsEmpty() bool {
 	return list.size == 0
 }
 
-// Join returns a string with all list values concatenated and separated by the given separator.
-func (list *SinglyLinkedList) Join(separator string) string {
-	str := ""
-
-	for it := list.head; it != nil; it = it.next {
-		str += fmt.Sprintf("%v", it.value)
-		if it.next != nil {
-			str += separator
-		}
-	}
-
-	return str
-}
-
 // Remove removes the given value in the list and returns true if the value has been removed, false otherwise.
 func (list *SinglyLinkedList) Remove(value interface{}) bool {
 	found := false
@@ -179,5 +165,14 @@ func (list SinglyLinkedList) Size() int {
 }
 
 func (list SinglyLinkedList) String() string {
-	return fmt.Sprintf("[%s]", list.Join(","))
+	str := "["
+	for it := list.head; it != nil; it = it.next {
+		str += fmt.Sprintf("%v", it.value)
+		if it != list.tail {
+			str += ","
+		}
+	}
+	str += "]"
+
+	return str
 }

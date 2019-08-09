@@ -102,20 +102,6 @@ func (list *DoublyLinkedList) Get(index int) (interface{}, error) {
 	return it.value, nil
 }
 
-// Join returns a string with all list values concatenated and separated by the given separator.
-func (list *DoublyLinkedList) Join(separator string) string {
-	str := ""
-
-	for it := list.head; it != nil; it = it.next {
-		str += fmt.Sprintf("%v", it.value)
-		if it.next != nil {
-			str += separator
-		}
-	}
-
-	return str
-}
-
 // Remove removes the given value and returns true if the value has been removed, false otherwise.
 func (list *DoublyLinkedList) Remove(value interface{}) bool {
 	found := false
@@ -184,5 +170,14 @@ func (list *DoublyLinkedList) Size() int {
 }
 
 func (list DoublyLinkedList) String() string {
-	return fmt.Sprintf("[%s]", list.Join(","))
+	str := "["
+	for it := list.head; it != nil; it = it.next {
+		str += fmt.Sprintf("%v", it.value)
+		if it != list.tail {
+			str += ","
+		}
+	}
+	str += "]"
+
+	return str
 }
