@@ -102,10 +102,12 @@ func (list *SinglyLinkedList) IsEmpty() bool {
 }
 
 // Remove removes the value at the given index from the list or returns an error if the given index is out of bounds.
-func (list *SinglyLinkedList) Remove(index int) error {
+func (list *SinglyLinkedList) Remove(index int) (interface{}, error) {
 	if index < 0 || index >= list.Size() {
-		return errors.NewIndexOutOfBoundsError(index, list.Size())
+		return nil, errors.NewIndexOutOfBoundsError(index, list.Size())
 	}
+
+	var removedValue interface{}
 
 	it := list.head
 	for i := 1; i < index; i++ {
@@ -120,14 +122,16 @@ func (list *SinglyLinkedList) Remove(index int) error {
 	}
 
 	if index == 0 {
+		removedValue = list.head.value
 		list.head = list.head.next
 	} else {
+		removedValue = it.next.value
 		it.next = it.next.next
 	}
 
 	list.size--
 
-	return nil
+	return removedValue, nil
 }
 
 // Size returns the number of values in the list.

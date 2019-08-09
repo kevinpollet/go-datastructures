@@ -153,19 +153,24 @@ func TestIsEmpty(test *testing.T) {
 func TestRemove(test *testing.T) {
 	// []
 	list := SinglyLinkedList{}
-	assert.Error(test, list.Remove(0))
+	_, err := list.Remove(0)
+	assert.Error(test, err)
 
 	// [1]
 	list = SinglyLinkedList{}
 	list.Add(1)
 
-	assert.Error(test, list.Remove(1))
+	_, err = list.Remove(1)
+	assert.Error(test, err)
 
 	// [1]
 	list = SinglyLinkedList{}
 	list.Add(1)
 
-	assert.Nil(test, list.Remove(0))
+	value, err := list.Remove(0)
+
+	assert.Nil(test, err)
+	assert.Equal(test, 1, value)
 	assert.Equal(test, 0, list.size)
 	assert.Nil(test, list.head)
 	assert.Nil(test, list.tail)
@@ -175,7 +180,10 @@ func TestRemove(test *testing.T) {
 	list.Add(1)
 	list.Add(2)
 
-	assert.Nil(test, list.Remove(1))
+	value, err = list.Remove(1)
+
+	assert.Nil(test, err)
+	assert.Equal(test, 2, value)
 	assert.Equal(test, 1, list.size)
 	assert.Equal(test, 1, list.head.value)
 	assert.Equal(test, list.tail, list.head)
@@ -186,7 +194,10 @@ func TestRemove(test *testing.T) {
 	list.Add(2)
 	list.Add(3)
 
-	assert.Nil(test, list.Remove(1))
+	value, err = list.Remove(1)
+
+	assert.Nil(test, err)
+	assert.Equal(test, 2, value)
 	assert.Equal(test, 2, list.size)
 	assert.Equal(test, 1, list.head.value)
 	assert.Equal(test, 3, list.tail.value)

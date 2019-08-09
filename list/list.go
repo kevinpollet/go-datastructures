@@ -15,6 +15,6 @@ type List interface {
 	IndexOf(value interface{}) int
 	Insert(index int, value interface{}) error
 	IsEmpty() bool
-	Remove(index int) error
+	Remove(index int) (interface{}, error)
 	Size() int
 }

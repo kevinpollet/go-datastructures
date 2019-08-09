@@ -105,10 +105,12 @@ func (list *DoublyLinkedList) Get(index int) (interface{}, error) {
 }
 
 // Remove removes the value at the given index from the list or returns an error if the given index is out of bounds.
-func (list *DoublyLinkedList) Remove(index int) error {
+func (list *DoublyLinkedList) Remove(index int) (interface{}, error) {
 	if index < 0 || index >= list.Size() {
-		return errors.NewIndexOutOfBoundsError(index, list.Size())
+		return nil, errors.NewIndexOutOfBoundsError(index, list.Size())
 	}
+
+	var removedValue interface{}
 
 	it := list.head
 	for i := 0; i < index; i++ {
@@ -116,6 +118,7 @@ func (list *DoublyLinkedList) Remove(index int) error {
 	}
 
 	if it == list.head {
+		removedValue = list.head.value
 		list.head = list.head.next
 
 		if list.tail == it {
@@ -125,17 +128,19 @@ func (list *DoublyLinkedList) Remove(index int) error {
 		}
 
 	} else if it == list.tail {
+		removedValue = list.tail.value
 		list.tail = list.tail.prev
 		list.tail.next = nil
 
 	} else {
+		removedValue = it.value
 		it.prev.next = it.next
 		it.next.prev = it.prev
 	}
 
 	list.size--
 
-	return nil
+	return removedValue, nil
 }
 
 // Size return the number of value in the list.
