@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestDequeueAssertion(t *testing.T) {
+func TestDequeueTypeAssertion(t *testing.T) {
 	var linkedListDequeue interface{} = &LinkedListDequeue{}
 
 	value, ok := linkedListDequeue.(dequeue.Dequeue)

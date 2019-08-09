@@ -14,7 +14,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestPriorityQueueAssertion(test *testing.T) {
+func TestPriorityQueueTypeAssertion(test *testing.T) {
 	var binaryHeap interface{} = &BinaryHeap{}
 
 	cast, ok := binaryHeap.(priorityqueue.PriorityQueue)

@@ -32,7 +32,7 @@ func newLinkedListQueue(values ...int) LinkedListQueue {
 	return LinkedListQueue{list: list}
 }
 
-func TestQueueAssertion(test *testing.T) {
+func TestQueueTypeAssertion(test *testing.T) {
 	var linkedListQueue interface{} = &LinkedListQueue{}
 
 	value, ok := linkedListQueue.(queue.Queue)
