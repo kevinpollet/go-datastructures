@@ -15,101 +15,120 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestStackAssertion(test *testing.T) {
+func TestStackTypeAssertion(t *testing.T) {
 	var linkedListStack interface{} = &LinkedListStack{}
 
 	cast, ok := linkedListStack.(stack.Stack)
 
-	assert.True(test, ok)
-	assert.NotNil(test, cast)
+	assert.True(t, ok)
+	assert.NotNil(t, cast)
 }
 
-func TestClear(test *testing.T) {
-	test.Run("should removes all values if the stack is empty", func(subTest *testing.T) {
+func TestClear(t *testing.T) {
+	t.Run("EmptyStack", func(subT *testing.T) {
 		stack := LinkedListStack{}
 		stack.Clear()
 
-		assert.True(subTest, stack.list.IsEmpty())
+		assert.True(subT, stack.list.IsEmpty())
 	})
 
-	test.Run("should removes all values if the stack is not empty", func(subTest *testing.T) {
+	t.Run("NonEmptyStack", func(subT *testing.T) {
 		list := singlylinkedlist.SinglyLinkedList{}
 		list.Add(1)
 
 		stack := LinkedListStack{list: list}
 		stack.Clear()
 
-		assert.True(subTest, stack.list.IsEmpty())
+		assert.True(subT, stack.list.IsEmpty())
 	})
 }
 
-func TestIsEmpty(test *testing.T) {
-	test.Run("should return true if the stack is empty", func(subTest *testing.T) {
+func TestIsEmpty(t *testing.T) {
+	t.Run("EmptyStack", func(subT *testing.T) {
 		stack := LinkedListStack{}
-		assert.True(subTest, stack.IsEmpty())
+
+		assert.True(subT, stack.IsEmpty())
 	})
 
-	test.Run("should return false if the stack is not empty", func(subTest *testing.T) {
+	t.Run("NonEmptyStack", func(subT *testing.T) {
 		list := singlylinkedlist.SinglyLinkedList{}
 		list.Add(1)
 
 		stack := LinkedListStack{list: list}
 
-		assert.False(subTest, stack.IsEmpty())
+		assert.False(subT, stack.IsEmpty())
 	})
 }
 
-func TestPeek(test *testing.T) {
-	test.Run("should return an error if the stack is empty", func(subTest *testing.T) {
+func TestPeek(t *testing.T) {
+	t.Run("EmptyStack", func(subT *testing.T) {
 		stack := LinkedListStack{}
+
 		value, err := stack.Peek()
 
-		assert.Nil(subTest, value)
-		assert.Error(subTest, err)
+		assert.Nil(subT, value)
+		assert.Error(subT, err)
 	})
 
-	test.Run("should return the value at the top of the stack", func(subTest *testing.T) {
+	t.Run("StackWithOneValue", func(subT *testing.T) {
 		list := singlylinkedlist.SinglyLinkedList{}
 		list.Add(1)
 
 		stack := LinkedListStack{list: list}
 		value, err := stack.Peek()
 
-		assert.Equal(subTest, 1, value)
-		assert.Nil(subTest, err)
+		assert.Equal(subT, 1, value)
+		assert.Equal(subT, 1, stack.list.Size())
+		assert.NoError(subT, err)
 	})
 }
 
-func TestPop(test *testing.T) {
-	test.Run("should return an error if the stack is empty", func(subTest *testing.T) {
+func TestPop(t *testing.T) {
+	t.Run("EmptyStack", func(subT *testing.T) {
 		stack := LinkedListStack{}
-		_, err := stack.Pop()
 
-		assert.Error(subTest, err)
+		value, err := stack.Pop()
+
+		assert.Error(subT, err)
+		assert.Nil(subT, value)
 	})
 
-	test.Run("should return and remove the element at the top of the stack", func(subTest *testing.T) {
+	t.Run("StackWithOneValue", func(subT *testing.T) {
 		list := singlylinkedlist.SinglyLinkedList{}
 		list.Add(1)
 
 		stack := LinkedListStack{list: list}
 		value, err := stack.Pop()
 
-		assert.Equal(subTest, 1, value)
-		assert.Nil(subTest, err)
+		assert.Equal(subT, 1, value)
+		assert.Equal(subT, 0, stack.list.Size())
+		assert.NoError(subT, err)
+	})
+
+	t.Run("StackWithTwoValues", func(subT *testing.T) {
+		list := singlylinkedlist.SinglyLinkedList{}
+		list.Add(1)
+		list.Add(2)
+
+		stack := LinkedListStack{list: list}
+		value, err := stack.Pop()
+
+		assert.Equal(subT, 1, value)
+		assert.Equal(subT, 1, stack.list.Size())
+		assert.NoError(subT, err)
 	})
 }
 
-func TestPush(test *testing.T) {
-	test.Run("should add the element to the top of the stack if the stack is empty", func(subTest *testing.T) {
+func TestPush(t *testing.T) {
+	t.Run("EmptyStack", func(subT *testing.T) {
 		stack := LinkedListStack{}
 		stack.Push(1)
 
 		value, _ := stack.list.Get(0)
-		assert.Equal(subTest, 1, value)
+		assert.Equal(subT, 1, value)
 	})
 
-	test.Run("should add the element to the top of the stack, if the stack is not empty", func(subTest *testing.T) {
+	t.Run("StackWithOneValue", func(subT *testing.T) {
 		list := singlylinkedlist.SinglyLinkedList{}
 		list.Add(1)
 
@@ -117,42 +136,50 @@ func TestPush(test *testing.T) {
 		stack.Push(2)
 
 		value, _ := stack.list.Get(0)
-		assert.Equal(subTest, 2, value)
+		assert.Equal(subT, 2, value)
 	})
 }
 
-func TestSize(test *testing.T) {
-	test.Run("should returns 0 if the stack is empty", func(subTest *testing.T) {
+func TestSize(t *testing.T) {
+	t.Run("EmptyStack", func(subT *testing.T) {
 		stack := LinkedListStack{}
 
-		assert.Equal(subTest, 0, stack.Size())
+		assert.Equal(subT, 0, stack.Size())
 	})
 
-	test.Run("should returns the number of values if the stack is not empty", func(subTest *testing.T) {
+	t.Run("StackWithOneValue", func(subT *testing.T) {
 		list := singlylinkedlist.SinglyLinkedList{}
 		list.Add(1)
 
 		stack := LinkedListStack{list: list}
 
-		assert.Equal(subTest, 1, stack.Size())
+		assert.Equal(subT, 1, stack.Size())
 	})
 }
 
-func TestString(test *testing.T) {
-	test.Run("should returns [] if the stack is empty", func(subTest *testing.T) {
+func TestString(t *testing.T) {
+	t.Run("EmptyStack", func(subT *testing.T) {
 		stack := LinkedListStack{}
 
-		assert.Equal(subTest, "[]", stack.String())
+		assert.Equal(subT, "[]", stack.String())
 	})
 
-	test.Run("should returns the array of values if the stack is not empty", func(subTest *testing.T) {
+	t.Run("StackWithOneValue", func(subT *testing.T) {
+		list := singlylinkedlist.SinglyLinkedList{}
+		list.Add(1)
+
+		stack := LinkedListStack{list: list}
+
+		assert.Equal(subT, "[1]", stack.String())
+	})
+
+	t.Run("StackWithTwoValues", func(subT *testing.T) {
 		list := singlylinkedlist.SinglyLinkedList{}
 		list.Add(1)
 		list.Add(2)
-		list.Add(3)
 
 		stack := LinkedListStack{list: list}
 
-		assert.Equal(subTest, "[1,2,3]", stack.String())
+		assert.Equal(subT, "[1,2]", stack.String())
 	})
 }

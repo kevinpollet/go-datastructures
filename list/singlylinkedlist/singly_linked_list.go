@@ -26,7 +26,7 @@ type SinglyLinkedList struct {
 }
 
 // Add appends the given value to the list.
-// Complexity: O(1)
+// Complexity: O(1).
 func (list *SinglyLinkedList) Add(value interface{}) {
 	eltToAdd := elt{value: value}
 
@@ -43,7 +43,7 @@ func (list *SinglyLinkedList) Add(value interface{}) {
 }
 
 // Clear removes all values from the list.
-// Complexity: O(1)
+// Complexity: O(1).
 func (list *SinglyLinkedList) Clear() {
 	list.head = nil
 	list.tail = nil
@@ -51,7 +51,7 @@ func (list *SinglyLinkedList) Clear() {
 }
 
 // Get returns the value at the given index in the list or an error if the given index is out of bounds.
-// Complexity: O(1) to retrieve head and tail values, O(n) otherwise
+// Complexity: O(1) to retrieve head and tail values, O(n) otherwise.
 func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
 	if index < 0 || index >= list.Size() {
 		return nil, errors.NewIndexOutOfBoundsError(index, list.Size())
@@ -69,7 +69,7 @@ func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
 }
 
 // IndexOf returns the index of the first occurrence of the given value in the list, -1 if the list does not contain the value.
-// Complexity: O(n)
+// Complexity: O(n).
 func (list *SinglyLinkedList) IndexOf(value interface{}) int {
 	index := -1
 	for i, it := 0, list.head; it != nil; i, it = i+1, it.next {
@@ -82,7 +82,7 @@ func (list *SinglyLinkedList) IndexOf(value interface{}) int {
 }
 
 // Insert inserts the given value at the given index in the list or returns an error if the given index is out of bounds.
-// Complexity: O(1) to insert a value at the head or tail of the list, O(n) otherwise
+// Complexity: O(1) to insert a value at the head or tail of the list, O(n) otherwise.
 func (list *SinglyLinkedList) Insert(index int, value interface{}) error {
 	if index < 0 || index > list.Size() {
 		return errors.NewIndexOutOfBoundsError(index, list.Size())
@@ -113,13 +113,13 @@ func (list *SinglyLinkedList) Insert(index int, value interface{}) error {
 }
 
 // IsEmpty returns true if the list is empty, false otherwise.
-// Complexity: O(1)
+// Complexity: O(1).
 func (list *SinglyLinkedList) IsEmpty() bool {
 	return list.size == 0
 }
 
 // Remove removes the value at the given index from the list or returns an error if the given index is out of bounds.
-// Complexity: O(1) if the value is at the head of the list, O(n) otherwise
+// Complexity: O(1) if the value is at the head of the list, O(n) otherwise.
 func (list *SinglyLinkedList) Remove(index int) (interface{}, error) {
 	if index < 0 || index >= list.Size() {
 		return nil, errors.NewIndexOutOfBoundsError(index, list.Size())
@@ -156,13 +156,13 @@ func (list *SinglyLinkedList) Remove(index int) (interface{}, error) {
 }
 
 // Size returns the number of values in the list.
-// Complexity: O(1)
+// Complexity: O(1).
 func (list SinglyLinkedList) Size() int {
 	return list.size
 }
 
-// String returns a string representation of the list
-// Complexity: O(n)
+// String returns a string representation of the list.
+// Complexity: O(n).
 func (list SinglyLinkedList) String() string {
 	str := "["
 	for it := list.head; it != nil; it = it.next {

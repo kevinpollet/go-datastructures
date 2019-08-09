@@ -18,47 +18,53 @@ type LinkedListStack struct {
 }
 
 // Clear removes all values from the stack.
+// Complexity: O(1).
 func (stack *LinkedListStack) Clear() {
 	stack.list.Clear()
 }
 
 // IsEmpty returns true if the stack is empty, false otherwise.
+// Complexity: O(1).
 func (stack *LinkedListStack) IsEmpty() bool {
 	return stack.list.IsEmpty()
 }
 
 // Peek returns the value at the top of the stack or an error if the stack is empty.
+// Complexity: O(1).
 func (stack *LinkedListStack) Peek() (interface{}, error) {
-	if stack.IsEmpty() {
+	value, err := stack.list.Get(0)
+	if _, ok := err.(*errors.IndexOutOfBoundsError); ok {
 		return nil, errors.NewNoSuchElementError("cannot peek a value from an empty stack")
 	}
 
-	value, _ := stack.list.Get(0)
 	return value, nil
 }
 
 // Pop removes and returns the value at the top of the stack or an error if the stack is empty.
+// Complexity: O(1).
 func (stack *LinkedListStack) Pop() (interface{}, error) {
-	if stack.IsEmpty() {
+	value, err := stack.list.Remove(0)
+	if _, ok := err.(*errors.IndexOutOfBoundsError); ok {
 		return nil, errors.NewNoSuchElementError("cannot pop a value from an empty stack")
 	}
-
-	value, _ := stack.list.Get(0)
-	stack.list.Remove(0)
 
 	return value, nil
 }
 
 // Push adds the given value to the top of the stack.
+// Complexity: O(1).
 func (stack *LinkedListStack) Push(value interface{}) {
 	stack.list.Insert(0, value)
 }
 
 // Size returns the number of values in the stack.
+// Complexity: O(1).
 func (stack *LinkedListStack) Size() int {
 	return stack.list.Size()
 }
 
+// String returns a string representation of the stack.
+// Complexity: O(1).
 func (stack LinkedListStack) String() string {
 	return stack.list.String()
 }
