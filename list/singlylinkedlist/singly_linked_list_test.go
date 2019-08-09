@@ -14,197 +14,377 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestListAssertion(test *testing.T) {
+func TestListTypeAssertion(t *testing.T) {
 	var singlyLinkedList interface{} = &SinglyLinkedList{}
 
 	cast, ok := singlyLinkedList.(list.List)
 
-	assert.True(test, ok)
-	assert.NotNil(test, cast)
+	assert.True(t, ok)
+	assert.NotNil(t, cast)
 }
 
-func TestAdd(test *testing.T) {
-	// []
-	list := SinglyLinkedList{}
-	list.Add(1)
+func TestAdd(t *testing.T) {
+	t.Run("ToEmptyList", func(subT *testing.T) {
+		list := SinglyLinkedList{}
 
-	assert.Equal(test, 1, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, list.tail, list.head)
-	assert.Nil(test, list.tail.next)
+		list.Add(1)
 
-	// [1]
-	list = SinglyLinkedList{}
-	list.Add(1)
-	list.Add(2)
+		assert.Equal(subT, 1, list.size)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, list.tail, list.head)
+	})
 
-	assert.Equal(test, 2, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, list.tail, list.head.next)
-	assert.Equal(test, 2, list.tail.value)
-	assert.Nil(test, list.tail.next)
+	t.Run("ToListWithOneValue", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
+
+		list.Add(2)
+
+		assert.Equal(subT, 2, list.size)
+		assert.Equal(subT, 2, list.tail.value)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, list.tail, list.head.next)
+	})
+
+	t.Run("ToListWithTwoValues", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1, next: &elt{value: 2}}
+		list.tail = list.head.next
+		list.size = 2
+
+		list.Add(3)
+
+		assert.Equal(subT, 3, list.size)
+		assert.Equal(subT, 3, list.tail.value)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, 2, list.head.next.value)
+		assert.Equal(subT, list.tail, list.head.next.next)
+	})
 }
 
-func TestClear(test *testing.T) {
-	// []
-	list := SinglyLinkedList{}
-	list.Clear()
+func TestClear(t *testing.T) {
+	t.Run("EmptyList", func(subT *testing.T) {
+		list := SinglyLinkedList{}
 
-	assert.Equal(test, 0, list.size)
-	assert.Nil(test, list.head)
-	assert.Nil(test, list.tail)
+		list.Clear()
 
-	// [1]
-	list = SinglyLinkedList{}
-	list.Add(1)
-	list.Clear()
+		assert.Nil(subT, list.head)
+		assert.Nil(subT, list.tail)
+		assert.Equal(subT, 0, list.size)
+	})
 
-	assert.Equal(test, 0, list.size)
-	assert.Nil(test, list.head)
-	assert.Nil(test, list.tail)
+	t.Run("ListWithOneValue", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
 
-	// [1, 2]
-	list = SinglyLinkedList{}
-	list.Add(1)
-	list.Add(2)
-	list.Clear()
+		list.Clear()
 
-	assert.Equal(test, 0, list.size)
-	assert.Nil(test, list.head)
-	assert.Nil(test, list.tail)
+		assert.Nil(subT, list.head)
+		assert.Nil(subT, list.tail)
+		assert.Equal(subT, 0, list.size)
+	})
+
+	t.Run("ListWithTwoValues", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1, next: &elt{value: 2}}
+		list.tail = list.head.next
+		list.size = 2
+
+		list.Clear()
+
+		assert.Nil(subT, list.head)
+		assert.Nil(subT, list.tail)
+		assert.Equal(subT, 0, list.size)
+	})
 }
 
-func TestGet(test *testing.T) {
-	// index < 0
-	_, err := (&SinglyLinkedList{}).Get(-1)
+func TestGet(t *testing.T) {
+	t.Run("WithIndexInfZero", func(subT *testing.T) {
+		list := SinglyLinkedList{}
 
-	assert.Error(test, err)
+		value, err := list.Get(-1)
 
-	// index >= size
-	_, err = (&SinglyLinkedList{size: 0}).Get(0)
+		assert.Error(subT, err)
+		assert.Nil(subT, value)
+	})
 
-	assert.Error(test, err, "Index Out of Bounds Error")
+	t.Run("WithIndexGreaterThanOrEqualToSize", func(subT *testing.T) {
+		list := SinglyLinkedList{}
 
-	// [1]
-	list := SinglyLinkedList{}
-	list.Add(1)
-	res, err := list.Get(0)
+		value, err := list.Get(0)
 
-	assert.Equal(test, 1, res)
-	assert.Nil(test, err)
+		assert.Error(subT, err)
+		assert.Nil(subT, value)
 
+		value, err = list.Get(1)
+
+		assert.Error(subT, err)
+		assert.Nil(subT, value)
+	})
+
+	t.Run("WithHeadIndex", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1, next: &elt{value: 2}}
+		list.tail = list.head.next
+		list.size = 2
+
+		value, err := list.Get(0)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, list.head.value, value)
+	})
+
+	t.Run("WithTailIndex", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1, next: &elt{value: 2}}
+		list.tail = list.head.next
+		list.size = 2
+
+		value, err := list.Get(1)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, list.tail.value, value)
+	})
 }
 
-func TestIndexOf(test *testing.T) {
-	// []
-	assert.Equal(test, -1, (&SinglyLinkedList{}).IndexOf("foo"))
+func TestIndexOf(t *testing.T) {
+	t.Run("ExistingValue", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
 
-	// ["foo"]
-	list := SinglyLinkedList{}
-	list.Add("foo")
+		assert.Equal(subT, 0, list.IndexOf(1))
+	})
 
-	assert.Equal(test, 0, list.IndexOf("foo"))
-	assert.Equal(test, -1, list.IndexOf("bar"))
+	t.Run("MissingValue", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
+
+		assert.Equal(subT, -1, list.IndexOf(2))
+	})
 }
 
-func TestInsert(test *testing.T) {
-	// index < 0
-	assert.Error(test, (&SinglyLinkedList{}).Insert(-1, 1))
+func TestInsert(t *testing.T) {
+	t.Run("WithIndexInfZero", func(subT *testing.T) {
+		list := SinglyLinkedList{}
 
-	// index > size
-	assert.Error(test, (&SinglyLinkedList{}).Insert(1, 1))
+		assert.Error(subT, list.Insert(-1, 1))
+		assert.Equal(subT, 0, list.size)
+	})
 
-	// []
-	list := SinglyLinkedList{}
-	list.Insert(0, 1)
+	t.Run("WithIndexGreaterThanSize", func(subT *testing.T) {
+		list := SinglyLinkedList{}
 
-	assert.Equal(test, 1, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, list.head, list.tail)
-	assert.Nil(test, list.head.next)
+		assert.Error(subT, list.Insert(-1, 1))
+		assert.Equal(subT, 0, list.size)
+	})
 
-	// [1]
-	list = SinglyLinkedList{}
-	list.Add(1)
-	list.Insert(0, 2)
+	t.Run("InEmptyList", func(subT *testing.T) {
+		list := SinglyLinkedList{}
 
-	assert.Equal(test, 2, list.size)
-	assert.Equal(test, 2, list.head.value)
-	assert.Equal(test, 1, list.tail.value)
-	assert.Nil(test, list.tail.next)
+		err := list.Insert(0, 1)
 
-	// [1,2]
-	list = SinglyLinkedList{}
-	list.Add(1)
-	list.Add(2)
-	list.Insert(1, 3)
+		assert.NoError(subT, err)
+		assert.Equal(subT, 1, list.size)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, list.tail, list.head)
+	})
 
-	assert.Equal(test, 3, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, 2, list.tail.value)
-	assert.Nil(test, list.tail.next)
+	t.Run("ToHead", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
+
+		err := list.Insert(0, 2)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, 2, list.size)
+		assert.Equal(subT, 2, list.head.value)
+		assert.Equal(subT, 1, list.tail.value)
+	})
+
+	t.Run("ToTail", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
+
+		err := list.Insert(1, 2)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, 2, list.size)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, 2, list.tail.value)
+		assert.Equal(subT, list.tail, list.head.next)
+	})
+
+	t.Run("InListWithTwoValues", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1, next: &elt{value: 2}}
+		list.tail = list.head.next
+		list.size = 2
+
+		err := list.Insert(1, 3)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, 3, list.size)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, 3, list.head.next.value)
+		assert.Equal(subT, 2, list.tail.value)
+		assert.Equal(subT, list.tail, list.head.next.next)
+	})
 }
 
-func TestIsEmpty(test *testing.T) {
-	assert.True(test, (&SinglyLinkedList{}).IsEmpty())
-	assert.False(test, (&SinglyLinkedList{size: 1}).IsEmpty())
+func TestIsEmpty(t *testing.T) {
+	t.Run("WithEmptyList", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+
+		assert.True(subT, list.IsEmpty())
+	})
+
+	t.Run("WithNonEmptyList", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
+
+		assert.False(subT, list.IsEmpty())
+	})
 }
 
-func TestRemove(test *testing.T) {
-	// []
-	list := SinglyLinkedList{}
-	_, err := list.Remove(0)
-	assert.Error(test, err)
+func TestRemove(t *testing.T) {
+	t.Run("WithIndexInfZero", func(subT *testing.T) {
+		list := SinglyLinkedList{}
 
-	// [1]
-	list = SinglyLinkedList{}
-	list.Add(1)
+		value, err := list.Remove(-1)
 
-	_, err = list.Remove(1)
-	assert.Error(test, err)
+		assert.Error(subT, err)
+		assert.Nil(subT, value)
+	})
 
-	// [1]
-	list = SinglyLinkedList{}
-	list.Add(1)
+	t.Run("WithIndexGreaterThanOrEqualToSize", func(subT *testing.T) {
+		list := SinglyLinkedList{}
 
-	value, err := list.Remove(0)
+		value, err := list.Remove(0)
 
-	assert.Nil(test, err)
-	assert.Equal(test, 1, value)
-	assert.Equal(test, 0, list.size)
-	assert.Nil(test, list.head)
-	assert.Nil(test, list.tail)
+		assert.Error(subT, err)
+		assert.Nil(subT, value)
 
-	// [1,2]
-	list = SinglyLinkedList{}
-	list.Add(1)
-	list.Add(2)
+		value, err = list.Remove(1)
 
-	value, err = list.Remove(1)
+		assert.Error(subT, err)
+		assert.Nil(subT, value)
+	})
 
-	assert.Nil(test, err)
-	assert.Equal(test, 2, value)
-	assert.Equal(test, 1, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, list.tail, list.head)
+	t.Run("Head", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
 
-	// [1,2,3]
-	list = SinglyLinkedList{}
-	list.Add(1)
-	list.Add(2)
-	list.Add(3)
+		value, err := list.Remove(0)
 
-	value, err = list.Remove(1)
+		assert.NoError(subT, err)
+		assert.Equal(subT, 1, value)
+		assert.Equal(subT, 0, list.size)
+		assert.Nil(subT, list.head)
+		assert.Nil(subT, list.tail)
+	})
 
-	assert.Nil(test, err)
-	assert.Equal(test, 2, value)
-	assert.Equal(test, 2, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, 3, list.tail.value)
-	assert.NotEqual(test, list.tail, list.head)
+	t.Run("HeadInListWithTwoValues", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1, next: &elt{value: 2}}
+		list.tail = list.head.next
+		list.size = 2
+
+		value, err := list.Remove(0)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, 1, value)
+		assert.Equal(subT, 1, list.size)
+		assert.Equal(subT, 2, list.head.value)
+		assert.Equal(subT, list.tail, list.head)
+	})
+
+	t.Run("TailInListWithTwoValues", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1, next: &elt{value: 2}}
+		list.tail = list.head.next
+		list.size = 2
+
+		value, err := list.Remove(1)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, 2, value)
+		assert.Equal(subT, 1, list.size)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, list.tail, list.head)
+	})
+
+	t.Run("MiddleInListWithThreeValues", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1, next: &elt{value: 2, next: &elt{value: 3}}}
+		list.tail = list.head.next.next
+		list.size = 3
+
+		value, err := list.Remove(1)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, 2, value)
+		assert.Equal(subT, 2, list.size)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, 3, list.tail.value)
+		assert.Equal(subT, list.head.next, list.tail)
+	})
 }
 
-func TestSize(test *testing.T) {
-	assert.Equal(test, 0, SinglyLinkedList{}.size)
-	assert.Equal(test, 2, SinglyLinkedList{size: 2}.size)
+func TestSize(t *testing.T) {
+	t.Run("WithEmptyList", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+
+		assert.Equal(subT, 0, list.Size())
+	})
+
+	t.Run("WithNonEmptyList", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
+
+		assert.Equal(subT, 1, list.Size())
+	})
+}
+
+func TestString(t *testing.T) {
+	t.Run("WithEmptyList", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+
+		assert.Equal(subT, "[]", list.String())
+	})
+
+	t.Run("WithListWithOneValue", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
+
+		assert.Equal(subT, "[1]", list.String())
+	})
+
+	t.Run("WithListWithTwoValues", func(subT *testing.T) {
+		list := SinglyLinkedList{}
+		list.head = &elt{value: 1, next: &elt{value: 2}}
+		list.tail = list.head.next
+		list.size = 2
+
+		assert.Equal(subT, "[1,2]", list.String())
+	})
 }
