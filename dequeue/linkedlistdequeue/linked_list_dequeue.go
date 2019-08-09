@@ -75,7 +75,7 @@ func (dequeue *LinkedListDequeue) PeekLast() (interface{}, error) {
 
 // Prepend adds the given value at the front of the dequeue.
 func (dequeue *LinkedListDequeue) Prepend(value interface{}) {
-	dequeue.list.AddAtIndex(0, value)
+	dequeue.list.Insert(0, value)
 }
 
 // Size returns the number of values in the dequeue.

@@ -51,7 +51,7 @@ func (stack *LinkedListStack) Pop() (interface{}, error) {
 
 // Push adds the given value to the top of the stack.
 func (stack *LinkedListStack) Push(value interface{}) {
-	stack.list.AddAtIndex(0, value)
+	stack.list.Insert(0, value)
 }
 
 // Size returns the number of values in the stack.

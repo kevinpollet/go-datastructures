@@ -45,44 +45,6 @@ func TestAdd(test *testing.T) {
 	assert.Nil(test, list.tail.next)
 }
 
-func TestAddAtIndex(test *testing.T) {
-	// index < 0
-	assert.Error(test, (&DoublyLinkedList{}).AddAtIndex(-1, 1))
-
-	// index > size
-	assert.Error(test, (&DoublyLinkedList{}).AddAtIndex(1, 1))
-
-	// []
-	list := DoublyLinkedList{}
-	list.AddAtIndex(0, 1)
-
-	assert.Equal(test, 1, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, list.head, list.tail)
-	assert.Nil(test, list.head.next)
-
-	// [1]
-	list = DoublyLinkedList{}
-	list.Add(1)
-	list.AddAtIndex(0, 2)
-
-	assert.Equal(test, 2, list.size)
-	assert.Equal(test, 2, list.head.value)
-	assert.Equal(test, 1, list.tail.value)
-	assert.Nil(test, list.tail.next)
-
-	// [1,2]
-	list = DoublyLinkedList{}
-	list.Add(1)
-	list.Add(2)
-	list.AddAtIndex(1, 3)
-
-	assert.Equal(test, 3, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, 2, list.tail.value)
-	assert.Nil(test, list.tail.next)
-}
-
 func TestClear(test *testing.T) {
 	// []
 	list := DoublyLinkedList{}
@@ -143,6 +105,44 @@ func TestGet(test *testing.T) {
 	assert.Equal(test, 1, res)
 	assert.Nil(test, err)
 
+}
+
+func TestInsert(test *testing.T) {
+	// index < 0
+	assert.Error(test, (&DoublyLinkedList{}).Insert(-1, 1))
+
+	// index > size
+	assert.Error(test, (&DoublyLinkedList{}).Insert(1, 1))
+
+	// []
+	list := DoublyLinkedList{}
+	list.Insert(0, 1)
+
+	assert.Equal(test, 1, list.size)
+	assert.Equal(test, 1, list.head.value)
+	assert.Equal(test, list.head, list.tail)
+	assert.Nil(test, list.head.next)
+
+	// [1]
+	list = DoublyLinkedList{}
+	list.Add(1)
+	list.Insert(0, 2)
+
+	assert.Equal(test, 2, list.size)
+	assert.Equal(test, 2, list.head.value)
+	assert.Equal(test, 1, list.tail.value)
+	assert.Nil(test, list.tail.next)
+
+	// [1,2]
+	list = DoublyLinkedList{}
+	list.Add(1)
+	list.Add(2)
+	list.Insert(1, 3)
+
+	assert.Equal(test, 3, list.size)
+	assert.Equal(test, 1, list.head.value)
+	assert.Equal(test, 2, list.tail.value)
+	assert.Nil(test, list.tail.next)
 }
 
 func TestIsEmpty(test *testing.T) {

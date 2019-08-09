@@ -10,10 +10,10 @@ package list
 // List Abstract Data Type (ADT).
 type List interface {
 	Add(value interface{})
-	AddAtIndex(index int, value interface{}) error
 	Clear()
 	Contains(value interface{}) bool
 	Get(index int) (interface{}, error)
+	Insert(index int, value interface{}) error
 	IsEmpty() bool
 	Remove(value interface{}) bool
 	RemoveAtIndex(index int) error

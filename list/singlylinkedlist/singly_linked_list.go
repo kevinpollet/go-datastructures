@@ -37,8 +37,35 @@ func (list *SinglyLinkedList) Add(value interface{}) {
 	list.size++
 }
 
-// AddAtIndex adds the given value at the given index in the list or returns an error if the given index is out of bounds.
-func (list *SinglyLinkedList) AddAtIndex(index int, value interface{}) error {
+// Clear removes all values from the list.
+func (list *SinglyLinkedList) Clear() {
+	list.head, list.tail, list.size = nil, nil, 0
+}
+
+// Contains returns true if the list contains the given value, false otherwise.
+func (list *SinglyLinkedList) Contains(value interface{}) bool {
+	found := false
+	for it := list.head; !found && it != nil; it = it.next {
+		found = it.value == value
+	}
+	return found
+}
+
+// Get returns the value at the given index in the list or an error if the given index is out of bounds.
+func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
+	if index < 0 || index >= list.Size() {
+		return nil, errors.NewIndexOutOfBoundsError(index, list.Size())
+	}
+
+	it := list.head
+	for i := 1; i <= index; i++ {
+		it = it.next
+	}
+	return it.value, nil
+}
+
+// Insert inserts the given value at the given index in the list or returns an error if the given index is out of bounds.
+func (list *SinglyLinkedList) Insert(index int, value interface{}) error {
 	if index < 0 || index > list.Size() {
 		return errors.NewIndexOutOfBoundsError(index, list.Size())
 	}
@@ -65,33 +92,6 @@ func (list *SinglyLinkedList) AddAtIndex(index int, value interface{}) error {
 		list.size++
 	}
 	return nil
-}
-
-// Clear removes all values from the list.
-func (list *SinglyLinkedList) Clear() {
-	list.head, list.tail, list.size = nil, nil, 0
-}
-
-// Contains returns true if the list contains the given value, false otherwise.
-func (list *SinglyLinkedList) Contains(value interface{}) bool {
-	found := false
-	for it := list.head; !found && it != nil; it = it.next {
-		found = it.value == value
-	}
-	return found
-}
-
-// Get returns the value at the given index in the list or an error if the given index is out of bounds.
-func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
-	if index < 0 || index >= list.Size() {
-		return nil, errors.NewIndexOutOfBoundsError(index, list.Size())
-	}
-
-	it := list.head
-	for i := 1; i <= index; i++ {
-		it = it.next
-	}
-	return it.value, nil
 }
 
 // IsEmpty returns true if the list is empty, false otherwise.

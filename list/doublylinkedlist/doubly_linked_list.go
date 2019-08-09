@@ -39,8 +39,22 @@ func (list *DoublyLinkedList) Add(value interface{}) {
 	list.size++
 }
 
-// AddAtIndex inserts the given value at the given index or returns an error if the given index is out of bounds.
-func (list *DoublyLinkedList) AddAtIndex(index int, value interface{}) error {
+// Clear removes all values from the list.
+func (list *DoublyLinkedList) Clear() {
+	list.head, list.tail, list.size = nil, nil, 0
+}
+
+// Contains returns true if the list contains the given value, false otherwise.
+func (list *DoublyLinkedList) Contains(value interface{}) bool {
+	found := false
+	for it := list.head; !found && it != nil; it = it.next {
+		found = it.value == value
+	}
+	return found
+}
+
+// Insert inserts the given value at the given index or returns an error if the given index is out of bounds.
+func (list *DoublyLinkedList) Insert(index int, value interface{}) error {
 	if index < 0 || index > list.Size() {
 		return errors.NewIndexOutOfBoundsError(index, list.Size())
 	}
@@ -68,20 +82,6 @@ func (list *DoublyLinkedList) AddAtIndex(index int, value interface{}) error {
 		list.size++
 	}
 	return nil
-}
-
-// Clear removes all values from the list.
-func (list *DoublyLinkedList) Clear() {
-	list.head, list.tail, list.size = nil, nil, 0
-}
-
-// Contains returns true if the list contains the given value, false otherwise.
-func (list *DoublyLinkedList) Contains(value interface{}) bool {
-	found := false
-	for it := list.head; !found && it != nil; it = it.next {
-		found = it.value == value
-	}
-	return found
 }
 
 // IsEmpty return true if the list is empty, false otherwise.
