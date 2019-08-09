@@ -15,7 +15,6 @@ type List interface {
 	Get(index int) (interface{}, error)
 	Insert(index int, value interface{}) error
 	IsEmpty() bool
-	Remove(value interface{}) bool
-	RemoveAtIndex(index int) error
+	Remove(index int) error
 	Size() int
 }

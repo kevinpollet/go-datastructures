@@ -29,7 +29,7 @@ func (dequeue *LinkedListDequeue) DequeueFirst() (interface{}, error) {
 	}
 
 	value, _ := dequeue.list.Get(0)
-	dequeue.list.RemoveAtIndex(0)
+	dequeue.list.Remove(0)
 	return value, nil
 }
 
@@ -41,7 +41,7 @@ func (dequeue *LinkedListDequeue) DequeueLast() (interface{}, error) {
 
 	index := dequeue.list.Size() - 1
 	value, _ := dequeue.list.Get(index)
-	dequeue.list.RemoveAtIndex(index)
+	dequeue.list.Remove(index)
 	return value, nil
 }
 

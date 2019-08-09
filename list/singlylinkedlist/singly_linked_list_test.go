@@ -153,16 +153,19 @@ func TestIsEmpty(test *testing.T) {
 func TestRemove(test *testing.T) {
 	// []
 	list := SinglyLinkedList{}
-	assert.False(test, list.Remove(""))
+	assert.Error(test, list.Remove(0))
 
 	// [1]
 	list = SinglyLinkedList{}
 	list.Add(1)
 
-	assert.False(test, list.Remove(2))
-	assert.Equal(test, 1, list.size)
+	assert.Error(test, list.Remove(1))
 
-	assert.True(test, list.Remove(1))
+	// [1]
+	list = SinglyLinkedList{}
+	list.Add(1)
+
+	assert.Nil(test, list.Remove(0))
 	assert.Equal(test, 0, list.size)
 	assert.Nil(test, list.head)
 	assert.Nil(test, list.tail)
@@ -172,17 +175,7 @@ func TestRemove(test *testing.T) {
 	list.Add(1)
 	list.Add(2)
 
-	assert.True(test, list.Remove(1))
-	assert.Equal(test, 1, list.size)
-	assert.Equal(test, 2, list.head.value)
-	assert.Equal(test, list.tail, list.head)
-
-	// [1,2]
-	list = SinglyLinkedList{}
-	list.Add(1)
-	list.Add(2)
-
-	assert.True(test, list.Remove(2))
+	assert.Nil(test, list.Remove(1))
 	assert.Equal(test, 1, list.size)
 	assert.Equal(test, 1, list.head.value)
 	assert.Equal(test, list.tail, list.head)
@@ -193,50 +186,7 @@ func TestRemove(test *testing.T) {
 	list.Add(2)
 	list.Add(3)
 
-	assert.True(test, list.Remove(2))
-	assert.Equal(test, 2, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, 3, list.tail.value)
-	assert.NotEqual(test, list.tail, list.head)
-}
-
-func TestRemoveAt(test *testing.T) {
-	// []
-	list := SinglyLinkedList{}
-	assert.Error(test, list.RemoveAtIndex(0))
-
-	// [1]
-	list = SinglyLinkedList{}
-	list.Add(1)
-
-	assert.Error(test, list.RemoveAtIndex(1))
-
-	// [1]
-	list = SinglyLinkedList{}
-	list.Add(1)
-
-	assert.Nil(test, list.RemoveAtIndex(0))
-	assert.Equal(test, 0, list.size)
-	assert.Nil(test, list.head)
-	assert.Nil(test, list.tail)
-
-	// [1,2]
-	list = SinglyLinkedList{}
-	list.Add(1)
-	list.Add(2)
-
-	assert.Nil(test, list.RemoveAtIndex(1))
-	assert.Equal(test, 1, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, list.tail, list.head)
-
-	// [1,2,3]
-	list = SinglyLinkedList{}
-	list.Add(1)
-	list.Add(2)
-	list.Add(3)
-
-	assert.Nil(test, list.RemoveAtIndex(1))
+	assert.Nil(test, list.Remove(1))
 	assert.Equal(test, 2, list.size)
 	assert.Equal(test, 1, list.head.value)
 	assert.Equal(test, 3, list.tail.value)

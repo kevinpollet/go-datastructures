@@ -29,7 +29,7 @@ func (queue *LinkedListQueue) Dequeue() (interface{}, error) {
 	}
 
 	elt, _ := queue.list.Get(0)
-	queue.list.RemoveAtIndex(0)
+	queue.list.Remove(0)
 	return elt, nil
 }
 

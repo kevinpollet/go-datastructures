@@ -99,39 +99,8 @@ func (list *SinglyLinkedList) IsEmpty() bool {
 	return list.size == 0
 }
 
-// Remove removes the given value in the list and returns true if the value has been removed, false otherwise.
-func (list *SinglyLinkedList) Remove(value interface{}) bool {
-	found := false
-
-	if !list.IsEmpty() {
-		it := list.head
-		if it.value == value {
-			list.head = list.head.next
-			if list.tail == it {
-				list.tail = list.head
-			}
-			found = true
-			list.size--
-		} else {
-			for it.next != nil && it.next.value != value {
-				it = it.next
-			}
-			found = it.next != nil
-			if found {
-				if it.next == list.tail {
-					list.tail = it
-				}
-				it.next = it.next.next
-				list.size--
-			}
-		}
-	}
-
-	return found
-}
-
-// RemoveAtIndex removes the value at the given index from the list or returns an error if the given index is out of bounds.
-func (list *SinglyLinkedList) RemoveAtIndex(index int) error {
+// Remove removes the value at the given index from the list or returns an error if the given index is out of bounds.
+func (list *SinglyLinkedList) Remove(index int) error {
 	if index < 0 || index >= list.Size() {
 		return errors.NewIndexOutOfBoundsError(index, list.Size())
 	}
