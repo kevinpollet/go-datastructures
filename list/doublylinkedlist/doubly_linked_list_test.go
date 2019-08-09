@@ -74,16 +74,16 @@ func TestClear(test *testing.T) {
 	assert.Nil(test, list.tail)
 }
 
-func TestContains(test *testing.T) {
+func TestIndexOf(test *testing.T) {
 	// []
-	assert.False(test, (&DoublyLinkedList{}).Contains("foo"))
+	assert.Equal(test, -1, (&DoublyLinkedList{}).IndexOf("foo"))
 
 	// ["foo"]
 	list := DoublyLinkedList{}
 	list.Add("foo")
 
-	assert.True(test, list.Contains("foo"))
-	assert.False(test, list.Contains("bar"))
+	assert.Equal(test, 0, list.IndexOf("foo"))
+	assert.Equal(test, -1, list.IndexOf("bar"))
 }
 
 func TestGet(test *testing.T) {

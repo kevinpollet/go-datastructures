@@ -11,8 +11,8 @@ package list
 type List interface {
 	Add(value interface{})
 	Clear()
-	Contains(value interface{}) bool
 	Get(index int) (interface{}, error)
+	IndexOf(value interface{}) int
 	Insert(index int, value interface{}) error
 	IsEmpty() bool
 	Remove(index int) error

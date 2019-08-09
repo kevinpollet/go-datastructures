@@ -44,13 +44,15 @@ func (list *DoublyLinkedList) Clear() {
 	list.head, list.tail, list.size = nil, nil, 0
 }
 
-// Contains returns true if the list contains the given value, false otherwise.
-func (list *DoublyLinkedList) Contains(value interface{}) bool {
-	found := false
-	for it := list.head; !found && it != nil; it = it.next {
-		found = it.value == value
+// IndexOf returns the index of the first occurrence of the given value in the list, -1 if the list does not contain the value.
+func (list *DoublyLinkedList) IndexOf(value interface{}) int {
+	index := -1
+	for i, it := 0, list.head; index == -1 && it != nil; i, it = i+1, it.next {
+		if it.value == value {
+			index = i
+		}
 	}
-	return found
+	return index
 }
 
 // Insert inserts the given value at the given index or returns an error if the given index is out of bounds.

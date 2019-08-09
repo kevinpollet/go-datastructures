@@ -74,18 +74,6 @@ func TestClear(test *testing.T) {
 	assert.Nil(test, list.tail)
 }
 
-func TestContains(test *testing.T) {
-	// []
-	assert.False(test, (&SinglyLinkedList{}).Contains("foo"))
-
-	// ["foo"]
-	list := SinglyLinkedList{}
-	list.Add("foo")
-
-	assert.True(test, list.Contains("foo"))
-	assert.False(test, list.Contains("bar"))
-}
-
 func TestGet(test *testing.T) {
 	// index < 0
 	_, err := (&SinglyLinkedList{}).Get(-1)
@@ -105,6 +93,18 @@ func TestGet(test *testing.T) {
 	assert.Equal(test, 1, res)
 	assert.Nil(test, err)
 
+}
+
+func TestIndexOf(test *testing.T) {
+	// []
+	assert.Equal(test, -1, (&SinglyLinkedList{}).IndexOf("foo"))
+
+	// ["foo"]
+	list := SinglyLinkedList{}
+	list.Add("foo")
+
+	assert.Equal(test, 0, list.IndexOf("foo"))
+	assert.Equal(test, -1, list.IndexOf("bar"))
 }
 
 func TestInsert(test *testing.T) {
