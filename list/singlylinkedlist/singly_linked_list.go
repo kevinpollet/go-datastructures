@@ -171,7 +171,6 @@ func (list SinglyLinkedList) String() string {
 			str += ","
 		}
 	}
-	str += "]"
 
-	return str
+	return str + "]"
 }

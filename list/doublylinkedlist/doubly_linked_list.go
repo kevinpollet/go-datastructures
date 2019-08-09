@@ -182,7 +182,6 @@ func (list DoublyLinkedList) String() string {
 			str += ","
 		}
 	}
-	str += "]"
 
-	return str
+	return str + "]"
 }

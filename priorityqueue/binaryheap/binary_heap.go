@@ -24,12 +24,20 @@ type BinaryHeap struct {
 }
 
 // Clear removes all values from the heap.
+// Complexity: O(1)
 func (heap *BinaryHeap) Clear() {
 	heap.tree = nil
 }
 
-// Insert adds the given value to the heap with the given priority.
-func (heap *BinaryHeap) Insert(value interface{}, priority int) {
+// IsEmpty returns true if the heap is empty, false otherwise.
+// Complexity: O(1)
+func (heap *BinaryHeap) IsEmpty() bool {
+	return heap.Size() == 0
+}
+
+// Offer adds the given value to the heap with the given priority.
+// Complexity: O(log(n))
+func (heap *BinaryHeap) Offer(value interface{}, priority int) {
 	heap.tree = append(heap.tree, &node{value: value, priority: priority})
 
 	childIndex := heap.Size() - 1
@@ -44,12 +52,8 @@ func (heap *BinaryHeap) Insert(value interface{}, priority int) {
 	}
 }
 
-// IsEmpty returns true if the heap is empty, false otherwise.
-func (heap *BinaryHeap) IsEmpty() bool {
-	return heap.Size() == 0
-}
-
 // Peek returns the value with the hightest priority in the heap or an error if the heap is empty.
+// Complexity: O(1)
 func (heap *BinaryHeap) Peek() (interface{}, error) {
 	if heap.IsEmpty() {
 		return nil, errors.NewNoSuchValueError("cannot peek a value from an empty heap")
@@ -58,6 +62,7 @@ func (heap *BinaryHeap) Peek() (interface{}, error) {
 }
 
 // Poll returns and removes the value with the hightest priority in the heap or an error if the heap is empty.
+// Complexity: O(log(n))
 func (heap *BinaryHeap) Poll() (interface{}, error) {
 	if heap.IsEmpty() {
 		return nil, errors.NewNoSuchValueError("cannot poll a value from an empty heap")
@@ -94,10 +99,13 @@ func (heap *BinaryHeap) Poll() (interface{}, error) {
 }
 
 // Size returns the number of values in the heap.
+// Complexity: O(1)
 func (heap *BinaryHeap) Size() int {
 	return len(heap.tree)
 }
 
+// String returns a string representation of the tree.
+// Complexity: O(n)
 func (heap BinaryHeap) String() string {
 	str := "["
 	for index, node := range heap.tree {
@@ -106,5 +114,6 @@ func (heap BinaryHeap) String() string {
 			str += ","
 		}
 	}
+
 	return str + "]"
 }

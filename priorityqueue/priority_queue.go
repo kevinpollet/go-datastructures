@@ -10,8 +10,8 @@ package priorityqueue
 // PriorityQueue Abstract Data Type (ADT).
 type PriorityQueue interface {
 	Clear()
-	Insert(value interface{}, priority int)
 	IsEmpty() bool
+	Offer(value interface{}, priority int)
 	Peek() (interface{}, error)
 	Poll() (interface{}, error)
 	Size() int
