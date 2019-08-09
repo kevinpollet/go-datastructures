@@ -14,198 +14,408 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestListAssertion(test *testing.T) {
+func TestListTypeAssertion(t *testing.T) {
 	var doublyLinkedList interface{} = &DoublyLinkedList{}
 
 	cast, ok := doublyLinkedList.(list.List)
 
-	assert.True(test, ok)
-	assert.NotNil(test, cast)
+	assert.True(t, ok)
+	assert.NotNil(t, cast)
 }
 
-func TestAdd(test *testing.T) {
-	// []
-	list := DoublyLinkedList{}
-	list.Add(1)
+func TestAdd(t *testing.T) {
+	t.Run("ToEmptyList", func(subT *testing.T) {
+		list := DoublyLinkedList{}
 
-	assert.Equal(test, 1, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, list.tail, list.head)
-	assert.Nil(test, list.tail.next)
+		list.Add(1)
 
-	// [1]
-	list = DoublyLinkedList{}
-	list.Add(1)
-	list.Add(2)
+		assert.Equal(subT, 1, list.size)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, list.tail, list.head)
+	})
 
-	assert.Equal(test, 2, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, list.tail, list.head.next)
-	assert.Equal(test, 2, list.tail.value)
-	assert.Nil(test, list.tail.next)
+	t.Run("ToListWithOneValue", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
+
+		list.Add(2)
+
+		assert.Equal(subT, 2, list.size)
+		assert.Equal(subT, 2, list.tail.value)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, list.tail, list.head.next)
+	})
+
+	t.Run("ToListWithTwoValues", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.tail = &elt{value: 2}
+		list.head = &elt{value: 1, next: list.tail}
+		list.tail.prev = list.head
+		list.size = 2
+
+		list.Add(3)
+
+		assert.Equal(subT, 3, list.size)
+		assert.Equal(subT, 3, list.tail.value)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, 2, list.head.next.value)
+		assert.Equal(subT, list.tail, list.head.next.next)
+	})
 }
 
-func TestClear(test *testing.T) {
-	// []
-	list := DoublyLinkedList{}
-	list.Clear()
+func TestClear(t *testing.T) {
+	t.Run("EmptyList", func(subT *testing.T) {
+		list := DoublyLinkedList{}
 
-	assert.Equal(test, 0, list.size)
-	assert.Nil(test, list.head)
-	assert.Nil(test, list.tail)
+		list.Clear()
 
-	// [1]
-	list = DoublyLinkedList{}
-	list.Add(1)
-	list.Clear()
+		assert.Nil(subT, list.head)
+		assert.Nil(subT, list.tail)
+		assert.Equal(subT, 0, list.size)
+	})
 
-	assert.Equal(test, 0, list.size)
-	assert.Nil(test, list.head)
-	assert.Nil(test, list.tail)
+	t.Run("ListWithOneValue", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
 
-	// [1, 2]
-	list = DoublyLinkedList{}
-	list.Add(1)
-	list.Add(2)
-	list.Clear()
+		list.Clear()
 
-	assert.Equal(test, 0, list.size)
-	assert.Nil(test, list.head)
-	assert.Nil(test, list.tail)
+		assert.Nil(subT, list.head)
+		assert.Nil(subT, list.tail)
+		assert.Equal(subT, 0, list.size)
+	})
+
+	t.Run("ListWithTwoValues", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.tail = &elt{value: 2}
+		list.head = &elt{value: 1, next: list.tail}
+		list.tail.prev = list.head
+		list.size = 2
+
+		list.Clear()
+
+		assert.Nil(subT, list.head)
+		assert.Nil(subT, list.tail)
+		assert.Equal(subT, 0, list.size)
+	})
 }
 
-func TestIndexOf(test *testing.T) {
-	// []
-	assert.Equal(test, -1, (&DoublyLinkedList{}).IndexOf("foo"))
+func TestGet(t *testing.T) {
+	t.Run("WithIndexInfZero", func(subT *testing.T) {
+		list := DoublyLinkedList{}
 
-	// ["foo"]
-	list := DoublyLinkedList{}
-	list.Add("foo")
+		value, err := list.Get(-1)
 
-	assert.Equal(test, 0, list.IndexOf("foo"))
-	assert.Equal(test, -1, list.IndexOf("bar"))
+		assert.Error(subT, err)
+		assert.Nil(subT, value)
+	})
+
+	t.Run("WithIndexGreaterThanOrEqualToSize", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+
+		value, err := list.Get(0)
+
+		assert.Error(subT, err)
+		assert.Nil(subT, value)
+
+		value, err = list.Get(1)
+
+		assert.Error(subT, err)
+		assert.Nil(subT, value)
+	})
+
+	t.Run("WithHeadIndex", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.tail = &elt{value: 2}
+		list.head = &elt{value: 1, next: list.tail}
+		list.tail.prev = list.head
+		list.size = 2
+
+		value, err := list.Get(0)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, list.head.value, value)
+	})
+
+	t.Run("WithTailIndex", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.tail = &elt{value: 2}
+		list.head = &elt{value: 1, next: list.tail}
+		list.tail.prev = list.head
+		list.size = 2
+
+		value, err := list.Get(1)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, list.tail.value, value)
+	})
 }
 
-func TestGet(test *testing.T) {
-	// index < 0
-	_, err := (&DoublyLinkedList{}).Get(-1)
+func TestIndexOf(t *testing.T) {
+	t.Run("ExistingValue", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
 
-	assert.Error(test, err)
+		assert.Equal(subT, 0, list.IndexOf(1))
+	})
 
-	// index >= size
-	_, err = (&DoublyLinkedList{size: 0}).Get(0)
+	t.Run("MissingValue", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
 
-	assert.Error(test, err, "Index Out of Bounds Error")
-
-	// [1]
-	list := DoublyLinkedList{}
-	list.Add(1)
-	res, err := list.Get(0)
-
-	assert.Equal(test, 1, res)
-	assert.Nil(test, err)
-
+		assert.Equal(subT, -1, list.IndexOf(2))
+	})
 }
 
-func TestInsert(test *testing.T) {
-	// index < 0
-	assert.Error(test, (&DoublyLinkedList{}).Insert(-1, 1))
+func TestInsert(t *testing.T) {
+	t.Run("WithIndexInfZero", func(subT *testing.T) {
+		list := DoublyLinkedList{}
 
-	// index > size
-	assert.Error(test, (&DoublyLinkedList{}).Insert(1, 1))
+		assert.Error(subT, list.Insert(-1, 1))
+		assert.Equal(subT, 0, list.size)
+	})
 
-	// []
-	list := DoublyLinkedList{}
-	list.Insert(0, 1)
+	t.Run("WithIndexGreaterThanSize", func(subT *testing.T) {
+		list := DoublyLinkedList{}
 
-	assert.Equal(test, 1, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, list.head, list.tail)
-	assert.Nil(test, list.head.next)
+		assert.Error(subT, list.Insert(-1, 1))
+		assert.Equal(subT, 0, list.size)
+	})
 
-	// [1]
-	list = DoublyLinkedList{}
-	list.Add(1)
-	list.Insert(0, 2)
+	t.Run("InEmptyList", func(subT *testing.T) {
+		list := DoublyLinkedList{}
 
-	assert.Equal(test, 2, list.size)
-	assert.Equal(test, 2, list.head.value)
-	assert.Equal(test, 1, list.tail.value)
-	assert.Nil(test, list.tail.next)
+		err := list.Insert(0, 1)
 
-	// [1,2]
-	list = DoublyLinkedList{}
-	list.Add(1)
-	list.Add(2)
-	list.Insert(1, 3)
+		assert.NoError(subT, err)
+		assert.Equal(subT, 1, list.size)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, list.tail, list.head)
+		assert.Nil(subT, list.head.prev)
+		assert.Nil(subT, list.head.next)
+		assert.Nil(subT, list.tail.next)
+		assert.Nil(subT, list.tail.prev)
+	})
 
-	assert.Equal(test, 3, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, 2, list.tail.value)
-	assert.Nil(test, list.tail.next)
+	t.Run("ToHead", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
+
+		err := list.Insert(0, 2)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, 2, list.size)
+		assert.Equal(subT, 2, list.head.value)
+		assert.Equal(subT, 1, list.tail.value)
+		assert.Nil(subT, list.head.prev)
+		assert.Nil(subT, list.tail.next)
+		assert.Equal(subT, list.tail, list.head.next)
+		assert.Equal(subT, list.head, list.tail.prev)
+	})
+
+	t.Run("ToTail", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
+
+		err := list.Insert(1, 2)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, 2, list.size)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, 2, list.tail.value)
+		assert.Nil(subT, list.head.prev)
+		assert.Nil(subT, list.tail.next)
+		assert.Equal(subT, list.tail, list.head.next)
+		assert.Equal(subT, list.head, list.tail.prev)
+	})
+
+	t.Run("InListWithTwoValues", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.tail = &elt{value: 2}
+		list.head = &elt{value: 1, next: list.tail}
+		list.tail.prev = list.head
+		list.size = 2
+
+		err := list.Insert(1, 3)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, 3, list.size)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, 3, list.head.next.value)
+		assert.Equal(subT, 2, list.tail.value)
+		assert.Nil(subT, list.head.prev)
+		assert.Nil(subT, list.tail.next)
+		assert.Equal(subT, 3, list.head.next.value)
+		assert.Equal(subT, list.head.next, list.tail.prev)
+	})
 }
 
-func TestIsEmpty(test *testing.T) {
-	assert.True(test, (&DoublyLinkedList{}).IsEmpty())
-	assert.False(test, (&DoublyLinkedList{size: 1}).IsEmpty())
+func TestIsEmpty(t *testing.T) {
+	t.Run("WithEmptyList", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+
+		assert.True(subT, list.IsEmpty())
+	})
+
+	t.Run("WithNonEmptyList", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
+
+		assert.False(subT, list.IsEmpty())
+	})
 }
 
-func TestRemove(test *testing.T) {
-	// []
-	list := DoublyLinkedList{}
-	_, err := list.Remove(0)
-	assert.Error(test, err)
+func TestRemove(t *testing.T) {
+	t.Run("WithIndexInfZero", func(subT *testing.T) {
+		list := DoublyLinkedList{}
 
-	// [1]
-	list = DoublyLinkedList{}
-	list.Add(1)
+		value, err := list.Remove(-1)
 
-	_, err = list.Remove(1)
+		assert.Error(subT, err)
+		assert.Nil(subT, value)
+	})
 
-	assert.Error(test, err)
+	t.Run("WithIndexGreaterThanOrEqualToSize", func(subT *testing.T) {
+		list := DoublyLinkedList{}
 
-	// [1]
-	list = DoublyLinkedList{}
-	list.Add(1)
+		value, err := list.Remove(0)
 
-	value, err := list.Remove(0)
+		assert.Error(subT, err)
+		assert.Nil(subT, value)
 
-	assert.Nil(test, err)
-	assert.Equal(test, 1, value)
-	assert.Equal(test, 0, list.size)
-	assert.Nil(test, list.head)
-	assert.Nil(test, list.tail)
+		value, err = list.Remove(1)
 
-	// [1,2]
-	list = DoublyLinkedList{}
-	list.Add(1)
-	list.Add(2)
+		assert.Error(subT, err)
+		assert.Nil(subT, value)
+	})
 
-	value, err = list.Remove(1)
+	t.Run("Head", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
 
-	assert.Nil(test, err)
-	assert.Equal(test, 2, value)
-	assert.Equal(test, 1, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, list.tail, list.head)
+		value, err := list.Remove(0)
 
-	// [1,2,3]
-	list = DoublyLinkedList{}
-	list.Add(1)
-	list.Add(2)
-	list.Add(3)
+		assert.NoError(subT, err)
+		assert.Equal(subT, 1, value)
+		assert.Equal(subT, 0, list.size)
+		assert.Nil(subT, list.head)
+		assert.Nil(subT, list.tail)
+	})
 
-	value, err = list.Remove(1)
+	t.Run("HeadInListWithTwoValues", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.tail = &elt{value: 2}
+		list.head = &elt{value: 1, next: list.tail}
+		list.tail.prev = list.head
+		list.size = 2
 
-	assert.Nil(test, err)
-	assert.Equal(test, 2, value)
-	assert.Equal(test, 2, list.size)
-	assert.Equal(test, 1, list.head.value)
-	assert.Equal(test, 3, list.tail.value)
-	assert.NotEqual(test, list.tail, list.head)
+		value, err := list.Remove(0)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, 1, value)
+		assert.Equal(subT, 1, list.size)
+		assert.Equal(subT, 2, list.head.value)
+		assert.Equal(subT, list.tail, list.head)
+		assert.Nil(subT, list.head.prev)
+		assert.Nil(subT, list.tail.next)
+	})
+
+	t.Run("TailInListWithTwoValues", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.tail = &elt{value: 2}
+		list.head = &elt{value: 1, next: list.tail}
+		list.tail.prev = list.head
+		list.size = 2
+
+		value, err := list.Remove(1)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, 2, value)
+		assert.Equal(subT, 1, list.size)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, list.tail, list.head)
+		assert.Nil(subT, list.head.prev)
+		assert.Nil(subT, list.tail.next)
+	})
+
+	t.Run("MiddleInListWithThreeValues", func(subT *testing.T) {
+		middle := &elt{value: 2}
+		list := DoublyLinkedList{}
+		list.tail = &elt{value: 3, prev: middle}
+		list.head = &elt{value: 1, next: middle}
+		middle.next = list.tail
+		middle.prev = list.head
+		list.size = 3
+
+		value, err := list.Remove(1)
+
+		assert.NoError(subT, err)
+		assert.Equal(subT, 2, value)
+		assert.Equal(subT, 2, list.size)
+		assert.Equal(subT, 1, list.head.value)
+		assert.Equal(subT, 3, list.tail.value)
+		assert.Nil(subT, list.head.prev)
+		assert.Nil(subT, list.tail.next)
+		assert.Equal(subT, list.tail, list.head.next)
+		assert.Equal(subT, list.head, list.tail.prev)
+	})
 }
 
-func TestSize(test *testing.T) {
-	assert.Equal(test, 0, DoublyLinkedList{}.size)
-	assert.Equal(test, 2, DoublyLinkedList{size: 2}.size)
+func TestSize(t *testing.T) {
+	t.Run("WithEmptyList", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+
+		assert.Equal(subT, 0, list.Size())
+	})
+
+	t.Run("WithNonEmptyList", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
+
+		assert.Equal(subT, 1, list.Size())
+	})
+}
+
+func TestString(t *testing.T) {
+	t.Run("WithEmptyList", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+
+		assert.Equal(subT, "[]", list.String())
+	})
+
+	t.Run("WithListWithOneValue", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.head = &elt{value: 1}
+		list.tail = list.head
+		list.size = 1
+
+		assert.Equal(subT, "[1]", list.String())
+	})
+
+	t.Run("WithListWithTwoValues", func(subT *testing.T) {
+		list := DoublyLinkedList{}
+		list.head = &elt{value: 1, next: &elt{value: 2}}
+		list.tail = list.head.next
+		list.size = 2
+
+		assert.Equal(subT, "[1,2]", list.String())
+	})
 }

@@ -62,7 +62,7 @@ func (list *SinglyLinkedList) Get(index int) (interface{}, error) {
 	}
 
 	it := list.head
-	for i := 0; it != nil && i < index; i++ {
+	for i := 1; it != nil && i <= index; i++ {
 		it = it.next
 	}
 	return it.value, nil
@@ -88,23 +88,24 @@ func (list *SinglyLinkedList) Insert(index int, value interface{}) error {
 		return errors.NewIndexOutOfBoundsError(index, list.Size())
 	}
 
-	eltToInsert := elt{value: value}
-
 	if list.IsEmpty() || index == list.Size() {
 		list.Add(value)
 
-	} else if index == 0 {
-		eltToInsert.next = list.head
-		list.head = &eltToInsert
-		list.size++
-
 	} else {
-		it := list.head
-		for i := 1; it != nil && i < index; i++ {
-			it = it.next
+		eltToInsert := elt{value: value}
+
+		if index == 0 {
+			eltToInsert.next = list.head
+			list.head = &eltToInsert
+
+		} else {
+			it := list.head
+			for i := 1; it != nil && i < index; i++ {
+				it = it.next
+			}
+			eltToInsert.next = it.next
+			it.next = &eltToInsert
 		}
-		eltToInsert.next = it.next
-		it.next = &eltToInsert
 		list.size++
 	}
 
