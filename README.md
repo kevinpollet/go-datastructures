@@ -93,4 +93,4 @@ Submit an [issue](https://github.com/kevinpollet/go-datastructures/issues/new) o
 
 ## License
 
-[MIT](./LICENSE.md) © kevinpollet
+[MIT](./LICENSE.md)
