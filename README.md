@@ -1,11 +1,13 @@
-# Go Data Structures &middot; [![GoDoc](https://godoc.org/github.com/kevinpollet/go-datastructures?status.svg)](https://godoc.org/github.com/kevinpollet/go-datastructures) [![Go Report Card](https://goreportcard.com/badge/github.com/kevinpollet/go-datastructures)](https://goreportcard.com/report/github.com/kevinpollet/go-datastructures) [![Build Status](https://dev.azure.com/kevinpollet/go-datastructures/_apis/build/status/kevinpollet.go-datastructures?branchName=master)](https://dev.azure.com/kevinpollet/go-datastructures/_build/latest?definitionId=7&branchName=master)
+# Go Data Structures
 
-This project has been created to keep track of my learnings and experiments while learning the Go programming language and reviewing the common Abstract Data Types (ADT), data structures, and algorithms.
+[![GoDoc](https://godoc.org/github.com/kevinpollet/go-datastructures?status.svg)](https://godoc.org/github.com/kevinpollet/go-datastructures) [![Go Report Card](https://goreportcard.com/badge/github.com/kevinpollet/go-datastructures)](https://goreportcard.com/report/github.com/kevinpollet/go-datastructures)
 
-## Usage
+Project to keep track of my learnings and experiments while learning the Go programming language and reviewing the common Abstract Data Types (ADT), data structures, and algorithms.
+
+## Installation
 
 ```shell
-$ go get github.com/kevinpollet/go-datastructures/...
+$ go get github.com/kevinpollet/go-datastructures
 ```
 
 ## Abstract Data Types & Data Structures
@@ -84,12 +86,6 @@ type PriorityQueue interface {
 
 - [Abstract Data Types](https://brilliant.org/wiki/abstract-data-types/)
 - [Easy to Advanced Data Structures](https://www.udemy.com/introduction-to-data-structures/)
-
-## Contributing
-
-Contributions are very welcome!
-
-Submit an [issue](https://github.com/kevinpollet/go-datastructures/issues/new) or a [pull request](https://github.com/kevinpollet/go-datastructures/pulls) if you want to contribute some code.
 
 ## License
 
